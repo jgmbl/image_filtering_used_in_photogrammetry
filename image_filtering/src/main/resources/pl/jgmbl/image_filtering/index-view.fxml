@@ -15,5 +15,8 @@
     <Button text="import" onAction="#onImportButtonClick"/>
 
     <Label fx:id="gaussFilter"/>
-    <Button text="GaussFilter" onAction="#onGaussFilterButtonClick"/>
+    <Button text="Gauss Filter" onAction="#onGaussFilterButtonClick"/>
+
+    <Label fx:id="medianFilter"/>
+    <Button text="Median Filter" onAction="#onMedianFilterButtonClick"/>
 </VBox>
