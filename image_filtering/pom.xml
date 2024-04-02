@@ -60,7 +60,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>pl.jgmbl.image_filtering/pl.jgmbl.image_filtering.HelloApplication</mainClass>
+                            <mainClass>pl.jgmbl.image_filtering/pl.jgmbl.image_filtering.ImageFilteringApplication</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>
