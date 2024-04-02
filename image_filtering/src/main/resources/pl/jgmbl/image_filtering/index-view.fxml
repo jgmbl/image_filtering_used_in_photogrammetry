@@ -12,7 +12,7 @@
     </padding>
 
     <Label fx:id="importImages"/>
-    <Button text="import" onAction="#onImportButtonClick"/>
+    <Button text="Import images" onAction="#onImportButtonClick"/>
 
     <Label fx:id="gaussFilter"/>
     <Button text="Gauss Filter" onAction="#onGaussFilterButtonClick"/>
@@ -22,4 +22,7 @@
 
     <Label fx:id="unsharpMasking"/>
     <Button text="Unsharp masking" onAction="#onUnsharpMaskingButtonClick"/>
+
+    <Label fx:id="exportImages"/>
+    <Button text="Export images" onAction="#onExportButtonClick"/>
 </VBox>
