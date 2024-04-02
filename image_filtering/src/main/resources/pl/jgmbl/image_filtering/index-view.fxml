@@ -6,11 +6,14 @@
 
 <?import javafx.scene.control.Button?>
 <VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="pl.jgmbl.image_filtering.ImportController">
+      fx:controller="pl.jgmbl.image_filtering.IndexController">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
 
     <Label fx:id="importImages"/>
     <Button text="import" onAction="#onImportButtonClick"/>
+
+    <Label fx:id="gaussFilter"/>
+    <Button text="GaussFilter" onAction="#onGaussFilterButtonClick"/>
 </VBox>
