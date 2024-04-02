@@ -19,4 +19,7 @@
 
     <Label fx:id="medianFilter"/>
     <Button text="Median Filter" onAction="#onMedianFilterButtonClick"/>
+
+    <Label fx:id="unsharpMasking"/>
+    <Button text="Unsharp masking" onAction="#onUnsharpMaskingButtonClick"/>
 </VBox>

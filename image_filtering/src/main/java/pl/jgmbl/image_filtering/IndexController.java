@@ -6,6 +6,8 @@ import javafx.scene.control.Label;
 
 public class IndexController {
     @FXML
+    private Label unsharpMasking;
+    @FXML
     private Label importImages;
     @FXML
     private Label gaussFilter;
@@ -25,5 +27,10 @@ public class IndexController {
     @FXML
     protected void onMedianFilterButtonClick() {
         medianFilter.setText("Filtering images...");
+    }
+
+    @FXML
+    protected void onUnsharpMaskingButtonClick() {
+        unsharpMasking.setText("Filtering images...");
     }
 }
