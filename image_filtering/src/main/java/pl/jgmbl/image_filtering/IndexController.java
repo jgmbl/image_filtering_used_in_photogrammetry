@@ -1,8 +1,12 @@
 package pl.jgmbl.image_filtering;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.stage.Stage;
+
+import java.io.*;
 
 public class IndexController {
     @FXML
@@ -19,6 +23,19 @@ public class IndexController {
     @FXML
     protected void onImportButtonClick() {
         importImages.setText("Importing images...");
+
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("import-view.fxml"));
+
+            Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+            Stage stage = new Stage();
+            stage.setTitle("Import");
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
