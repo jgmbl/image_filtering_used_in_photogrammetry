@@ -6,7 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
-import java.io.*;
+import java.io.IOException;
 
 public class IndexController {
     @FXML
@@ -22,14 +22,14 @@ public class IndexController {
 
     @FXML
     protected void onImportButtonClick() {
-        importImages.setText("Importing images...");
 
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
+            Stage stage = new Stage();
+
             fxmlLoader.setLocation(getClass().getResource("import-view.fxml"));
 
             Scene scene = new Scene(fxmlLoader.load(), 600, 400);
-            Stage stage = new Stage();
             stage.setTitle("Import");
             stage.setScene(scene);
             stage.show();
