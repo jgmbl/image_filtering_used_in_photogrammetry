@@ -10,12 +10,17 @@ public class ImportController {
     @FXML
     private TextField path;
 
+
+
     @FXML
     protected void onImportButtonClick() {
+        importData.setText("Importing data...");
 
-        java.lang.String importPath = path.getText();
-        importData.setText(importPath);
+//        java.lang.String importPath = path.getText();
 
 
+//        List<String> listOfFiles = importService.listOfFiles(importPath);
+//
+//        System.out.println(listOfFiles);
     }
 }
