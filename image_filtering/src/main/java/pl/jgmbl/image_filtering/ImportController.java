@@ -1,15 +1,11 @@
 package pl.jgmbl.image_filtering;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 import java.util.List;
 
 public class ImportController {
-    @FXML
-    private Label importData;
     @FXML
     private TextField path;
 
@@ -22,8 +18,8 @@ public class ImportController {
     protected void onImportClick() {
         String importDirectory = path.getText();
 
-        List<String> listOfFiles = importService.listOfJPGFiles(importDirectory);
+        List<List<String>> listOfJPGFiles = importService.listOfJPGFiles(importDirectory);
 
-        importService.addAlert("Choose filtering option");
+        importService.addAlert("Choose filtering option from main menu");
     }
 }
