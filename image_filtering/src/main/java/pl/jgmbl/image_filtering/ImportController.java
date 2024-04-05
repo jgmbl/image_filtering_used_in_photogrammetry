@@ -19,15 +19,8 @@ public class ImportController {
 
     @FXML
     protected void onImportClick() {
-
         String importDirectory = path.getText();
 
-        System.out.println(importDirectory);
-
-        List<String> listOfFiles = importService.listOfFiles(importDirectory);
-
-        for (String file : listOfFiles) {
-            System.out.println(file);
-        }
+        List<String> listOfFiles = importService.listOfJPGFiles(importDirectory);
     }
 }

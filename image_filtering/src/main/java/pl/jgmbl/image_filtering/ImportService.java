@@ -6,7 +6,7 @@ import java.util.List;
 
 public class ImportService {
 
-    public List<String> listOfFiles(String path) {
+    public List<String> listOfJPGFiles(String path) {
         ArrayList<String> filesList = new ArrayList<>();
 
         File folder = new File(path);
@@ -16,11 +16,16 @@ public class ImportService {
 
             if (files != null) {
                 for (File file : files) {
-                    filesList.add(file.getName());
+                    if (checkJPGExtension(file)) {
+                        filesList.add(file.getName());
+                    }
                 }
             }
         }
         return filesList;
     }
 
+    public boolean checkJPGExtension(File file) {
+        return file.getName().endsWith(".jpg");
+    }
 }
