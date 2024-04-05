@@ -4,23 +4,30 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
+import java.util.List;
+
 public class ImportController {
     @FXML
     private Label importData;
     @FXML
     private TextField path;
 
+    private final ImportService importService = new ImportService();
 
+    public ImportController() {
+    }
 
     @FXML
-    protected void onImportButtonClick() {
-        importData.setText("Importing data...");
+    protected void onImportClick() {
 
-//        java.lang.String importPath = path.getText();
+        String importDirectory = path.getText();
 
+        System.out.println(importDirectory);
 
-//        List<String> listOfFiles = importService.listOfFiles(importPath);
-//
-//        System.out.println(listOfFiles);
+        List<String> listOfFiles = importService.listOfFiles(importDirectory);
+
+        for (String file : listOfFiles) {
+            System.out.println(file);
+        }
     }
 }

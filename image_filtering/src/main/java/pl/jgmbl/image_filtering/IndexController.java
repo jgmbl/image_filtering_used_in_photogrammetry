@@ -23,19 +23,7 @@ public class IndexController {
     @FXML
     protected void onImportButtonClick() {
 
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            Stage stage = new Stage();
-
-            fxmlLoader.setLocation(getClass().getResource("import-view.fxml"));
-
-            Scene scene = new Scene(fxmlLoader.load(), 600, 400);
-            stage.setTitle("Import");
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        openImportWindow();
     }
 
     @FXML
@@ -56,5 +44,21 @@ public class IndexController {
     @FXML
     protected void onExportButtonClick() {
         exportImages.setText("Saving images...");
+    }
+
+    private void openImportWindow() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            Stage stage = new Stage();
+
+            fxmlLoader.setLocation(getClass().getResource("import-view.fxml"));
+
+            Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+            stage.setTitle("Import");
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

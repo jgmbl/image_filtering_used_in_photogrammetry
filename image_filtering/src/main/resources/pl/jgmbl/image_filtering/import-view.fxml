@@ -17,7 +17,7 @@
         </padding>
 
         <Label fx:id="importData"/>
-        <Button text="Import" onAction="#onImportButtonClick"/>
+        <Button text="Import" onAction="#onImportClick"/>
         <TextField fx:id="path" promptText="Folder path"/>
     </VBox>
 </AnchorPane>
