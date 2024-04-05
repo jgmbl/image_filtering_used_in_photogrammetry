@@ -7,6 +7,8 @@ import java.util.List;
 public class ImportService {
 
     /** Absolute paths to JPG files */
+
+
     public List<String> listOfJPGFiles(String path) {
         ArrayList<String> filesList = new ArrayList<>();
 
@@ -27,6 +29,6 @@ public class ImportService {
     }
 
     public boolean checkJPGExtension(File file) {
-        return file.getName().endsWith(".jpg");
+        return file.getName().toLowerCase().endsWith(".jpg") || file.getName().toLowerCase().endsWith(".jpeg");
     }
 }
