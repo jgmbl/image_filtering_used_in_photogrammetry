@@ -1,5 +1,7 @@
 package pl.jgmbl.image_filtering;
 
+import javafx.scene.control.Alert;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,8 +9,6 @@ import java.util.List;
 public class ImportService {
 
     /** Absolute paths to JPG files */
-
-
     public List<String> listOfJPGFiles(String path) {
         ArrayList<String> filesList = new ArrayList<>();
 
@@ -19,7 +19,7 @@ public class ImportService {
 
             if (files != null) {
                 for (File file : files) {
-                    if (checkJPGExtension(file)) {
+                    if (checkJpgJpegExtensions(file)) {
                         filesList.add(path + file.getName());
                     }
                 }
@@ -28,7 +28,23 @@ public class ImportService {
         return filesList;
     }
 
-    public boolean checkJPGExtension(File file) {
+
+    public void storeImagesPathsInMemory(List<String> paths) {
+
+    }
+
+
+
+    public boolean checkJpgJpegExtensions(File file) {
         return file.getName().toLowerCase().endsWith(".jpg") || file.getName().toLowerCase().endsWith(".jpeg");
+    }
+
+    public void addAlert (String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+
+        alert.setTitle("Information");
+        alert.setHeaderText("Import succeed");
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }
