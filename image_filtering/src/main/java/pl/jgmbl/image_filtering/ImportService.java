@@ -33,11 +33,6 @@ public class ImportService {
     }
 
 
-    public void storeImagesPathsInFile(List<String> paths) {
-
-    }
-
-
     public boolean checkJpgJpegExtensions(File file) {
         return file.getName().toLowerCase().endsWith(".jpg") || file.getName().toLowerCase().endsWith(".jpeg");
     }
