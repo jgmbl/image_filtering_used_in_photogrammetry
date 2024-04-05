@@ -20,6 +20,6 @@ public class ImportController {
 
         List<List<String>> listOfJPGFiles = importService.listOfJPGFiles(importDirectory);
 
-        importService.addAlert("Choose filtering option from main menu");
+        AddAlert.addInfoAlert("Import succeed", "Choose filtering option from main menu");
     }
 }

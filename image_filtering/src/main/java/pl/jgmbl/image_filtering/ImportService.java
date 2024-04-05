@@ -41,14 +41,4 @@ public class ImportService {
     public boolean checkJpgJpegExtensions(File file) {
         return file.getName().toLowerCase().endsWith(".jpg") || file.getName().toLowerCase().endsWith(".jpeg");
     }
-
-
-    public void addAlert (String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-
-        alert.setTitle("Information");
-        alert.setHeaderText("Import succeed");
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
 }
