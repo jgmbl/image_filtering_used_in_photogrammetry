@@ -30,10 +30,10 @@ public class ImportController {
                 manageTxtFiles.writeListToTxtFile(listOfJPGFiles, "src/main/resources/images.txt");
 
                 HashSet<String> listOfImagesFromFile = manageTxtFiles.readTxtFile("src/main/resources/images.txt");
-
                 ObservableList<String> importedImagesListData = FXCollections.observableArrayList(listOfImagesFromFile);
 
                 importedImagesList.setItems(importedImagesListData);
+                path.clear();
 
                 AddAlert.addInfoAlert("Import succeed", "Import more images or choose filtering option from main menu.");
             } else {
