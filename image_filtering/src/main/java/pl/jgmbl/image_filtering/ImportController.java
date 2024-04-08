@@ -3,6 +3,7 @@ package pl.jgmbl.image_filtering;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
@@ -14,6 +15,8 @@ public class ImportController {
     private TextField path;
     @FXML
     private ListView<String> importedImagesList;
+    @FXML
+    private Label importData;
 
     private final ImportService importService = new ImportService();
 
@@ -35,6 +38,7 @@ public class ImportController {
                 importedImagesList.setItems(importedImagesListData);
                 path.clear();
 
+                importData.setText("List of currently imported JPG/JPEG images:");
                 AddAlert.addInfoAlert("Import succeed", "Import more images or choose filtering option from main menu.");
             } else {
                 AddAlert.addErrorAlert("Import failed", "Check if path is correct.");

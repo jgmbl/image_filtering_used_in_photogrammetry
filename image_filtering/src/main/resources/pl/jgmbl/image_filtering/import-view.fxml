@@ -7,6 +7,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="pl.jgmbl.image_filtering.ImportController"
@@ -16,10 +17,12 @@
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
         </padding>
 
-        <Label fx:id="importData"/>
-        <Button text="Import" onAction="#onImportClick"/>
-        <TextField fx:id="path" promptText="Folder path" onAction="#onImportClick"/>
-        <ListView fx:id="importedImagesList"/>
+        <VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml">
+            <TextField fx:id="path" promptText="Folder path" onAction="#onImportClick" prefWidth="400"/>
+            <Button text="Import" onAction="#onImportClick"/>
+            <Label fx:id="importData"/>
+            <ListView fx:id="importedImagesList"/>
+        </VBox>
     </HBox>
 </AnchorPane>
 
