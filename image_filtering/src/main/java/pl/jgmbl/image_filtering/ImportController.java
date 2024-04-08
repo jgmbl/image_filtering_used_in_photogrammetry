@@ -1,17 +1,17 @@
 package pl.jgmbl.image_filtering;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 
 public class ImportController {
     @FXML
     private TextField path;
+    @FXML
+    private ListView<String> importedImagesList;
 
     private final ImportService importService = new ImportService();
 
@@ -24,20 +24,17 @@ public class ImportController {
         List<String> listOfJPGFiles = importService.listOfJPGFiles(importDirectory);
 
         try {
-            if (checkIfPathExists(importDirectory)) {
+            if (ManageTxtFiles.checkIfPathExists(importDirectory)) {
                 manageTxtFiles.writeListToTxtFile(listOfJPGFiles);
-                AddAlert.addInfoAlert("Import succeed", "Choose filtering option from main menu");
+                importedImagesList.getItems().clear();
+                importedImagesList.getItems().addAll(listOfJPGFiles);
+
+                AddAlert.addInfoAlert("Import succeed", "Import more images or choose filtering option from main menu.");
             } else {
-                AddAlert.addErrorAlert("Import failed", "Check if path is correct");
+                AddAlert.addErrorAlert("Import failed", "Check if path is correct.");
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    private boolean checkIfPathExists(String path) {
-        Path path1 = Paths.get(path);
-
-        return Files.exists(path1);
     }
 }

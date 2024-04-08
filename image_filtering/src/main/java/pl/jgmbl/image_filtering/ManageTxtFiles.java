@@ -41,7 +41,7 @@ public class ManageTxtFiles {
         return listOfFiles;
     }
 
-    private void createTxtFileIfItDoesNotExist(Path path) {
+    public void createTxtFileIfItDoesNotExist(Path path) {
         if (!Files.exists(path)) {
             try {
                 Files.createFile(path);
