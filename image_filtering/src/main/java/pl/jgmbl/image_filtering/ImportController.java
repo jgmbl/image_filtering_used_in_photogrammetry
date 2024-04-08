@@ -18,6 +18,11 @@ public class ImportController {
     @FXML
     private Label importData;
 
+    @FXML
+    private TextField deletePath;
+    @FXML
+    private Label deleteData;
+
     private final ImportService importService = new ImportService();
 
     private final ManageTxtFiles manageTxtFiles = new ManageTxtFiles();
@@ -46,5 +51,9 @@ public class ImportController {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void onDeleteClick() {
+        deleteData.setText("Deleted data");
     }
 }
