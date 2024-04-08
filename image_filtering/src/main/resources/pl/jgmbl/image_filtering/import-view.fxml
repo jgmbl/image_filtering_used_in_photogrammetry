@@ -18,7 +18,7 @@
 
         <Label fx:id="importData"/>
         <Button text="Import" onAction="#onImportClick"/>
-        <TextField fx:id="path" promptText="Folder path"/>
+        <TextField fx:id="path" promptText="Folder path" onAction="#onImportClick"/>
         <ListView fx:id="importedImagesList"/>
     </HBox>
 </AnchorPane>
