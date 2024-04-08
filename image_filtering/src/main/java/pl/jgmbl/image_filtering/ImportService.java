@@ -1,7 +1,5 @@
 package pl.jgmbl.image_filtering;
 
-import javafx.scene.control.Alert;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
