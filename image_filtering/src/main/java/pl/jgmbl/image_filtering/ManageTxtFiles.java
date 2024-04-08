@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -15,6 +16,11 @@ public class ManageTxtFiles {
     public void writeListToTxtFile(List<String> list) throws IOException {
         Path path = Paths.get("src/main/resources/images.txt");
 
-        Files.write(path, list, StandardOpenOption.APPEND);
+        //appending first line of data in separate line
+        ArrayList<String> listOfImages = new ArrayList<>();
+        listOfImages.add(System.lineSeparator());
+        listOfImages.addAll(list);
+
+        Files.write(path, listOfImages, StandardOpenOption.APPEND);
     }
 }
