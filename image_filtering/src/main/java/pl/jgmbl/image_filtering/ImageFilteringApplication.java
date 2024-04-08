@@ -23,11 +23,11 @@ public class ImageFilteringApplication extends Application {
     public void stop() throws Exception {
         super.stop();
 
-        deleteTxtFile();
+        deleteTxtFile("src/main/resources/images.txt");
     }
 
-    private void deleteTxtFile() {
-        File file = new File("src/main/resources/images.txt");
+    private void deleteTxtFile(String path) {
+        File file = new File(path);
 
         if (file.exists()) {
             file.delete();
