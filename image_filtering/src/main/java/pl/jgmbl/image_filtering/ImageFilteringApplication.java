@@ -12,7 +12,7 @@ public class ImageFilteringApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(ImageFilteringApplication.class.getResource("index-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1280, 720);
+        Scene scene = new Scene(fxmlLoader.load(), 1920, 1080);
         stage.setTitle("jgmbl - Image Filtering");
         stage.setResizable(false);
         stage.setScene(scene);

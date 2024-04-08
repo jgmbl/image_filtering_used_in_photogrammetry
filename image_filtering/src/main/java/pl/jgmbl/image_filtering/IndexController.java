@@ -4,17 +4,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.List;
 
 public class IndexController {
     private final ManageTxtFiles manageTxtFiles = new ManageTxtFiles();
+    private final String PATH = "src/main/resources/images.txt";
+
 
     @FXML
     private Label unsharpMasking;
@@ -55,19 +53,14 @@ public class IndexController {
 
     private void openImportWindow() {
         try {
-            String path = "src/main/resources/images.txt";
-            manageTxtFiles.createTxtFileIfItDoesNotExist(Paths.get(path));
-
-            ListView<String> listView = new ListView<>();
-            List<String> listOfImages = manageTxtFiles.readTxtFile(path);
-            listView.getItems().addAll(listOfImages);
+            manageTxtFiles.createTxtFileIfItDoesNotExist(Paths.get(PATH));
 
             FXMLLoader fxmlLoader = new FXMLLoader();
             Stage stage = new Stage();
 
             fxmlLoader.setLocation(getClass().getResource("import-view.fxml"));
 
-            Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+            Scene scene = new Scene(fxmlLoader.load(), 1920, 1080);
             stage.setTitle("Import");
             stage.setScene(scene);
             stage.show();

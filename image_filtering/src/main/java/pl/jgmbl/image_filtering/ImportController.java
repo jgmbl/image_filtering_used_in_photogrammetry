@@ -1,11 +1,13 @@
 package pl.jgmbl.image_filtering;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.HashSet;
 
 public class ImportController {
     @FXML
@@ -21,13 +23,17 @@ public class ImportController {
     protected void onImportClick() {
         String importDirectory = path.getText();
 
-        List<String> listOfJPGFiles = importService.listOfJPGFiles(importDirectory);
+        HashSet<String> listOfJPGFiles = importService.listOfJPGFiles(importDirectory);
 
         try {
             if (ManageTxtFiles.checkIfPathExists(importDirectory)) {
-                manageTxtFiles.writeListToTxtFile(listOfJPGFiles);
-                importedImagesList.getItems().clear();
-                importedImagesList.getItems().addAll(listOfJPGFiles);
+                manageTxtFiles.writeListToTxtFile(listOfJPGFiles, "src/main/resources/images.txt");
+
+                HashSet<String> listOfImagesFromFile = manageTxtFiles.readTxtFile("src/main/resources/images.txt");
+
+                ObservableList<String> importedImagesListData = FXCollections.observableArrayList(listOfImagesFromFile);
+
+                importedImagesList.setItems(importedImagesListData);
 
                 AddAlert.addInfoAlert("Import succeed", "Import more images or choose filtering option from main menu.");
             } else {

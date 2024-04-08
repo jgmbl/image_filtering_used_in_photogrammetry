@@ -5,7 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 
@@ -13,21 +13,21 @@ public class ManageTxtFiles {
     public ManageTxtFiles() {
     }
 
-    public void writeListToTxtFile(List<String> list) throws IOException {
-        Path path = Paths.get("src/main/resources/images.txt");
+    public void writeListToTxtFile(HashSet<String> set, String pathToFile) throws IOException {
+        Path path = Paths.get(pathToFile);
 
         createTxtFileIfItDoesNotExist(path);
 
         //appending first line of data in separate line
-        ArrayList<String> listOfImages = new ArrayList<>();
+        HashSet<String> listOfImages = new HashSet<>();
         listOfImages.add(System.lineSeparator());
-        listOfImages.addAll(list);
+        listOfImages.addAll(set);
 
         Files.write(path, listOfImages, StandardOpenOption.APPEND);
     }
 
-    public List<String> readTxtFile (String filePath) throws IOException {
-        ArrayList<String> listOfFiles = new ArrayList<>();
+    public HashSet<String> readTxtFile (String filePath) throws IOException {
+        HashSet<String> listOfFiles = new HashSet<>();
 
         Path path = Paths.get(filePath);
         List<String> lines = Files.readAllLines(path);
@@ -56,5 +56,4 @@ public class ManageTxtFiles {
 
         return Files.exists(path1);
     }
-
 }

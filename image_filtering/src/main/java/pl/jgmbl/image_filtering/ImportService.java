@@ -1,14 +1,14 @@
 package pl.jgmbl.image_filtering;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 
 public class ImportService {
 
     /** Absolute paths to JPG files */
-    public List<String> listOfJPGFiles(String path) {
-        ArrayList<String> filesAndPathList = new ArrayList<>();
+    public HashSet<String> listOfJPGFiles(String path) {
+
+        HashSet<String> filesAndPathSet = new HashSet<>();
 
         File folder = new File(path);
 
@@ -18,12 +18,12 @@ public class ImportService {
             if (files != null) {
                 for (File file : files) {
                     if (checkJpgJpegExtensions(file)) {
-                        filesAndPathList.add(path + file.getName());
+                        filesAndPathSet.add(path + file.getName());
                     }
                 }
             }
         }
-        return filesAndPathList;
+        return filesAndPathSet;
     }
 
 
