@@ -9,8 +9,8 @@ import java.util.List;
 public class ImportService {
 
     /** Absolute paths to JPG files */
-    public List<List<String>> listOfJPGFiles(String path) {
-        ArrayList<List<String>> filesAndPathList = new ArrayList<>();
+    public List<String> listOfJPGFiles(String path) {
+        ArrayList<String> filesAndPathList = new ArrayList<>();
 
         File folder = new File(path);
 
@@ -20,11 +20,7 @@ public class ImportService {
             if (files != null) {
                 for (File file : files) {
                     if (checkJpgJpegExtensions(file)) {
-                        ArrayList<String> pathAndFile = new ArrayList<>();
-
-                        pathAndFile.add(path);
-                        pathAndFile.add(file.getName());
-                        filesAndPathList.add(pathAndFile);
+                        filesAndPathList.add(path + file.getName());
                     }
                 }
             }
@@ -33,7 +29,7 @@ public class ImportService {
     }
 
 
-    public boolean checkJpgJpegExtensions(File file) {
+    private boolean checkJpgJpegExtensions(File file) {
         return file.getName().toLowerCase().endsWith(".jpg") || file.getName().toLowerCase().endsWith(".jpeg");
     }
 }

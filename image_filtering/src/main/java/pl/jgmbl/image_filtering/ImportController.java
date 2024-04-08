@@ -18,7 +18,7 @@ public class ImportController {
     protected void onImportClick() {
         String importDirectory = path.getText();
 
-        List<List<String>> listOfJPGFiles = importService.listOfJPGFiles(importDirectory);
+        List<String> listOfJPGFiles = importService.listOfJPGFiles(importDirectory);
 
         AddAlert.addInfoAlert("Import succeed", "Choose filtering option from main menu");
     }
