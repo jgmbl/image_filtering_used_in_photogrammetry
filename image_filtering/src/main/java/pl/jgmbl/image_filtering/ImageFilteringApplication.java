@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 
 public class ImageFilteringApplication extends Application {
@@ -16,6 +17,21 @@ public class ImageFilteringApplication extends Application {
         stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
+    }
+
+    @Override
+    public void stop() throws Exception {
+        super.stop();
+
+        deleteTxtFile();
+    }
+
+    private void deleteTxtFile() {
+        File file = new File("src/main/resources/images.txt");
+
+        if (file.exists()) {
+            file.delete();
+        }
     }
 
     public static void main(String[] args) {
