@@ -23,6 +23,12 @@
             <Label fx:id="importData"/>
             <ListView fx:id="importedImagesList"/>
         </VBox>
+
+        <VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml">
+            <TextField fx:id="deletePath" promptText="Folder path" onAction="#onImportClick" prefWidth="400"/>
+            <Button text="Delete" onAction="#onDeleteClick"/>
+            <Label fx:id="deleteData"/>
+        </VBox>
     </HBox>
 </AnchorPane>
 
