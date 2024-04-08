@@ -26,6 +26,21 @@ public class ManageTxtFiles {
         Files.write(path, listOfImages, StandardOpenOption.APPEND);
     }
 
+    public List<String> readTxtFile (String filePath) throws IOException {
+        ArrayList<String> listOfFiles = new ArrayList<>();
+
+        Path path = Paths.get(filePath);
+        List<String> lines = Files.readAllLines(path);
+
+        for (String line : lines) {
+            if (!line.isEmpty()) {
+                listOfFiles.add(line);
+            }
+        }
+
+        return listOfFiles;
+    }
+
     private void createTxtFileIfItDoesNotExist(Path path) {
         if (!Files.exists(path)) {
             try {
