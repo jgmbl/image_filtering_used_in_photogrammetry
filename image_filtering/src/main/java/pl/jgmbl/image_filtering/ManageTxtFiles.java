@@ -62,17 +62,17 @@ public class ManageTxtFiles {
     }
 
 
-    public void deleteImagesByFolderPath(String deletePath, String txtFilePath) throws IOException {
+    public Set<String> deletedImagesByFolderPath(String deletePath, String txtFilePath) throws IOException {
         Set<String> imagesFromTxtFile = readTxtFile(txtFilePath);
 
         File file = new File(deletePath);
         String[] listOfJPGFilesInDeletePath = file.list();
 
         if (listOfJPGFilesInDeletePath != null) {
-            HashSet<String> imagesToRemove = new HashSet<>();
+            Set<String> imagesToRemove = new HashSet<>();
 
             for (String imageName : listOfJPGFilesInDeletePath) {
-                if (checkJpgJpegExtensions(deletePath)) {
+                if (checkJpgJpegExtensions(imageName)) {
                     imagesToRemove.add(deletePath + imageName);
                 }
             }
@@ -87,7 +87,7 @@ public class ManageTxtFiles {
             });
         }
 
-        writeListToTxtFile(imagesFromTxtFile, txtFilePath, false);
+        return imagesFromTxtFile;
     }
 
 

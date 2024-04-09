@@ -74,7 +74,7 @@ public class ImportController {
                     importData.setText("List of currently imported JPG/JPEG images:");
                     AddAlert.addInfoAlert("Import succeed", "Import more images or choose filtering option from main menu.");
                 } else {
-                    AddAlert.addErrorAlert("Import failed", "Images have already been imported.");
+                    AddAlert.addErrorAlert("Import failed", "Folder has already been imported.");
                 }
             } else {
                 AddAlert.addErrorAlert("Import failed", "Check if the path is correct.");
@@ -89,10 +89,11 @@ public class ImportController {
 
         if (ManageTxtFiles.checkIfPathExists(deleteDirectory)) {
 
-            manageTxtFiles.deleteImagesByFolderPath(deleteDirectory, "src/main/resources/images.txt");
+            Set<String> deletedImagesFile = manageTxtFiles.deletedImagesByFolderPath(deleteDirectory, PATH);
+            manageTxtFiles.writeListToTxtFile(deletedImagesFile, PATH, false);
             deletePath.clear();
 
-            deleteData.setText("Deleted imported images");
+            deleteData.setText("Deleted imported images.");
 
             AddAlert.addInfoAlert("Deletion succeed", "Images are deleted.");
         } else {
