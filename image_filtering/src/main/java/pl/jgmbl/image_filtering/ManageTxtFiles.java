@@ -1,12 +1,12 @@
 package pl.jgmbl.image_filtering;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 
 
@@ -63,13 +63,21 @@ public class ManageTxtFiles {
         return Files.exists(path1);
     }
 
-    public void deleteImagesByFolderPath(String deletePath, String filePath) throws IOException {
-        HashSet<String> imagesFromTxtFile = readTxtFile(filePath);
+    public void deleteImagesByFolderPath(String deletePath, String txtFilePath) throws IOException {
+        HashSet<String> imagesFromTxtFile = readTxtFile(txtFilePath);
 
-        imagesFromTxtFile.removeIf(image -> image.startsWith(deletePath));
+        File file = new File(deletePath);
+        String[] listOfJPGFilesInDeletePath = file.list();
 
-        writeListToTxtFile(imagesFromTxtFile, filePath, false);
+        if (listOfJPGFilesInDeletePath != null) {
+            for (String imageName : listOfJPGFilesInDeletePath) {
+                if (imageName.toLowerCase().endsWith(".jpg") || imageName.toLowerCase().endsWith(".jpeg")) {
+                    imagesFromTxtFile.removeIf(imagePath -> imagePath.startsWith(deletePath + imageName));
+                }
+            }
+        }
 
-        System.out.println(imagesFromTxtFile);
+        writeListToTxtFile(imagesFromTxtFile, txtFilePath, false);
+        System.out.println(imagesFromTxtFile.toString());
     }
 }
