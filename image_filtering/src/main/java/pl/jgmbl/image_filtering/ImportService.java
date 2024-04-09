@@ -21,7 +21,7 @@ public class ImportService {
 
             if (files != null) {
                 for (File file : files) {
-                    if (checkJpgJpegExtensions(file)) {
+                    if (ManageTxtFiles.checkJpgJpegExtensions(path)) {
                         filesAndPathSet.add(path + file.getName());
                     }
                 }
@@ -30,8 +30,15 @@ public class ImportService {
         return filesAndPathSet;
     }
 
+    private HashSet<String> setOfNotAlreadyImportedFiles(HashSet<String> txtFileImages, HashSet<String> importedImages) {
+        HashSet<String> notImportedFiles = new HashSet<>();
 
-    private boolean checkJpgJpegExtensions(File file) {
-        return file.getName().toLowerCase().endsWith(".jpg") || file.getName().toLowerCase().endsWith(".jpeg");
+        for (String importedImage : importedImages) {
+            if (!txtFileImages.contains(importedImage)) {
+                notImportedFiles.add(importedImage);
+            }
+        }
+
+        return notImportedFiles;
     }
 }
