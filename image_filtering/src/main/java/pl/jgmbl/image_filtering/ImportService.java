@@ -1,7 +1,9 @@
 package pl.jgmbl.image_filtering;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashSet;
+import java.util.Set;
 
 public class ImportService {
     private ManageTxtFiles manageTxtFiles = new ManageTxtFiles();
@@ -10,9 +12,9 @@ public class ImportService {
     }
 
     /** Absolute paths to JPG files */
-    public HashSet<String> listOfJPGFiles(String path) {
+    public Set<String> listOfJPGFilesFromFolder(String path) {
 
-        HashSet<String> filesAndPathSet = new HashSet<>();
+        Set<String> filesAndPathSet = new HashSet<>();
 
         File folder = new File(path);
 
@@ -21,7 +23,7 @@ public class ImportService {
 
             if (files != null) {
                 for (File file : files) {
-                    if (ManageTxtFiles.checkJpgJpegExtensions(path)) {
+                    if (ManageTxtFiles.checkJpgJpegExtensions(file.getName())) {
                         filesAndPathSet.add(path + file.getName());
                     }
                 }
@@ -30,15 +32,13 @@ public class ImportService {
         return filesAndPathSet;
     }
 
-    private HashSet<String> setOfNotAlreadyImportedFiles(HashSet<String> txtFileImages, HashSet<String> importedImages) {
-        HashSet<String> notImportedFiles = new HashSet<>();
+    public boolean isFolderImported(String filePath, Set<String> importedImages) throws IOException {
+        Set<String> txtFile = manageTxtFiles.readTxtFile(filePath);
 
-        for (String importedImage : importedImages) {
-            if (!txtFileImages.contains(importedImage)) {
-                notImportedFiles.add(importedImage);
-            }
+        if (txtFile.containsAll(importedImages)) {
+            return true;
+        } else {
+            return false;
         }
-
-        return notImportedFiles;
     }
 }

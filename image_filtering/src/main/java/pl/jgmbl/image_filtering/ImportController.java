@@ -8,9 +8,11 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
-import java.util.HashSet;
+import java.util.Set;
 
 public class ImportController {
+
+    private final String PATH = "src/main/resources/images.txt";
     @FXML
     private Label importInfo;
     @FXML
@@ -19,7 +21,7 @@ public class ImportController {
     private ListView<String> listOfImages;
 
     @FXML
-    private TextField path;
+    private TextField importPath;
     @FXML
     private ListView<String> importedImagesList;
     @FXML
@@ -41,34 +43,39 @@ public class ImportController {
 
     @FXML
     protected void onRefreshClick() throws IOException {
-        HashSet<String> listOfImages = manageTxtFiles.readTxtFile("src/main/resources/images.txt");
-        ObservableList<String> listOfImagesFromFile = FXCollections.observableArrayList(listOfImages);
+        Set<String> listOfImagesFromTxtFile = manageTxtFiles.readTxtFile(PATH);
+        ObservableList<String> listOfImagesFromFile = FXCollections.observableArrayList(listOfImagesFromTxtFile);
 
-        if (ManageTxtFiles.checkIfPathExists("src/main/resources/images.txt")) {
+        if (ManageTxtFiles.checkIfPathExists(PATH)) {
             this.listOfImages.setItems(listOfImagesFromFile);
         } else {
             this.listOfImages.setItems(null);
         }
+
     }
 
     @FXML
     protected void onImportClick() {
-        String importDirectory = path.getText();
+        String importDirectory = importPath.getText();
 
-        HashSet<String> listOfJPGFiles = importService.listOfJPGFiles(importDirectory);
+        Set<String> listOfJPGFiles = importService.listOfJPGFilesFromFolder(importDirectory);
 
         try {
             if (ManageTxtFiles.checkIfPathExists(importDirectory)) {
-                manageTxtFiles.writeListToTxtFile(listOfJPGFiles, "src/main/resources/images.txt", true);
+                if (!importService.isFolderImported(PATH, listOfJPGFiles)) {
+                    manageTxtFiles.writeListToTxtFile(listOfJPGFiles, "src/main/resources/images.txt", true);
 
-                HashSet<String> listOfImagesFromFile = manageTxtFiles.readTxtFile("src/main/resources/images.txt");
-                ObservableList<String> importedImagesListData = FXCollections.observableArrayList(listOfImagesFromFile);
+                    Set<String> listOfImagesFromFile = manageTxtFiles.readTxtFile("src/main/resources/images.txt");
+                    ObservableList<String> importedImagesListData = FXCollections.observableArrayList(listOfImagesFromFile);
 
-                importedImagesList.setItems(importedImagesListData);
-                path.clear();
+                    importedImagesList.setItems(importedImagesListData);
+                    importPath.clear();
 
-                importData.setText("List of currently imported JPG/JPEG images:");
-                AddAlert.addInfoAlert("Import succeed", "Import more images or choose filtering option from main menu.");
+                    importData.setText("List of currently imported JPG/JPEG images:");
+                    AddAlert.addInfoAlert("Import succeed", "Import more images or choose filtering option from main menu.");
+                } else {
+                    AddAlert.addErrorAlert("Import failed", "Images have already been imported.");
+                }
             } else {
                 AddAlert.addErrorAlert("Import failed", "Check if the path is correct.");
             }

@@ -8,14 +8,17 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 public class ManageTxtFiles {
     public ManageTxtFiles() {
     }
 
-    public void writeListToTxtFile(HashSet<String> set, String pathToFile, boolean append) throws IOException {
+    public void writeListToTxtFile(Set<String> set, String pathToFile, boolean append) throws IOException {
         Path path = Paths.get(pathToFile);
+
+
 
         createTxtFileIfItDoesNotExist(path);
 
@@ -26,7 +29,7 @@ public class ManageTxtFiles {
         }
     }
 
-    public HashSet<String> readTxtFile (String filePath) throws IOException {
+    public Set<String> readTxtFile(String filePath) throws IOException {
         HashSet<String> listOfFiles = new HashSet<>();
 
         Path path = Paths.get(filePath);
@@ -58,8 +61,9 @@ public class ManageTxtFiles {
         return Files.exists(path1);
     }
 
+
     public void deleteImagesByFolderPath(String deletePath, String txtFilePath) throws IOException {
-        HashSet<String> imagesFromTxtFile = readTxtFile(txtFilePath);
+        Set<String> imagesFromTxtFile = readTxtFile(txtFilePath);
 
         File file = new File(deletePath);
         String[] listOfJPGFilesInDeletePath = file.list();
@@ -68,7 +72,7 @@ public class ManageTxtFiles {
             HashSet<String> imagesToRemove = new HashSet<>();
 
             for (String imageName : listOfJPGFilesInDeletePath) {
-                if (imageName.toLowerCase().endsWith(".jpg") || imageName.toLowerCase().endsWith(".jpeg")) {
+                if (checkJpgJpegExtensions(deletePath)) {
                     imagesToRemove.add(deletePath + imageName);
                 }
             }
@@ -84,6 +88,11 @@ public class ManageTxtFiles {
         }
 
         writeListToTxtFile(imagesFromTxtFile, txtFilePath, false);
-        System.out.println(imagesFromTxtFile.toString());
+    }
+
+
+    public static boolean checkJpgJpegExtensions(String path) {
+        File file = new File(path);
+        return file.getName().toLowerCase().endsWith(".jpg") || file.getName().toLowerCase().endsWith(".jpeg");
     }
 }
