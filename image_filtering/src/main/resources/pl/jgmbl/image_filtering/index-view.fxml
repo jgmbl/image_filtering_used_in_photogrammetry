@@ -22,7 +22,4 @@
 
     <Label fx:id="unsharpMasking"/>
     <Button text="Unsharp masking" onAction="#onUnsharpMaskingButtonClick"/>
-
-    <Label fx:id="exportImages"/>
-    <Button text="Export images" onAction="#onExportButtonClick"/>
 </VBox>

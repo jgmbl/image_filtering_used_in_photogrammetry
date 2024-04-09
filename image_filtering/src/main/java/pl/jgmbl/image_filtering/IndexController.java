@@ -22,8 +22,6 @@ public class IndexController {
     private Label gaussFilter;
     @FXML
     private Label medianFilter;
-    @FXML
-    private Label exportImages;
 
     @FXML
     protected void onImportButtonClick() {
@@ -44,11 +42,6 @@ public class IndexController {
     @FXML
     protected void onUnsharpMaskingButtonClick() {
         unsharpMasking.setText("Filtering images...");
-    }
-
-    @FXML
-    protected void onExportButtonClick() {
-        exportImages.setText("Saving images...");
     }
 
     private void openImportWindow() {
