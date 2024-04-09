@@ -1,8 +1,6 @@
 package pl.jgmbl.image_filtering;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.HashSet;
 
 public class ImportService {

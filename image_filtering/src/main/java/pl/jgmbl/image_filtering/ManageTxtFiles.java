@@ -19,15 +19,10 @@ public class ManageTxtFiles {
 
         createTxtFileIfItDoesNotExist(path);
 
-        //appending first line of data in separate line
-        HashSet<String> listOfImages = new HashSet<>();
-        listOfImages.add(System.lineSeparator());
-        listOfImages.addAll(set);
-
         if (append) {
-            Files.write(path, listOfImages, StandardOpenOption.APPEND);
+            Files.write(path, set, StandardOpenOption.APPEND);
         } else {
-            Files.write(path, listOfImages, StandardOpenOption.TRUNCATE_EXISTING);
+            Files.write(path, set, StandardOpenOption.TRUNCATE_EXISTING);
         }
     }
 
@@ -70,11 +65,22 @@ public class ManageTxtFiles {
         String[] listOfJPGFilesInDeletePath = file.list();
 
         if (listOfJPGFilesInDeletePath != null) {
+            HashSet<String> imagesToRemove = new HashSet<>();
+
             for (String imageName : listOfJPGFilesInDeletePath) {
                 if (imageName.toLowerCase().endsWith(".jpg") || imageName.toLowerCase().endsWith(".jpeg")) {
-                    imagesFromTxtFile.removeIf(imagePath -> imagePath.startsWith(deletePath + imageName));
+                    imagesToRemove.add(deletePath + imageName);
                 }
             }
+
+            imagesFromTxtFile.removeIf(imagePath -> {
+                for (String imageToRemove : imagesToRemove) {
+                    if (imagePath.startsWith(imageToRemove)) {
+                        return true;
+                    }
+                }
+                return false;
+            });
         }
 
         writeListToTxtFile(imagesFromTxtFile, txtFilePath, false);
