@@ -12,6 +12,13 @@ import java.util.HashSet;
 
 public class ImportController {
     @FXML
+    private Label importInfo;
+    @FXML
+    private Label importedPhotosInfo;
+    @FXML
+    private ListView<String> listOfImages;
+
+    @FXML
     private TextField path;
     @FXML
     private ListView<String> importedImagesList;
@@ -26,6 +33,23 @@ public class ImportController {
     private final ImportService importService = new ImportService();
 
     private final ManageTxtFiles manageTxtFiles = new ManageTxtFiles();
+
+    public void initialize() {
+        importInfo.setText("Enter the absolute path to the folder to import or delete JPG/JPEG images.");
+        importedPhotosInfo.setText("List of imported images:");
+    }
+
+    @FXML
+    protected void onRefreshClick() throws IOException {
+        HashSet<String> listOfImages = manageTxtFiles.readTxtFile("src/main/resources/images.txt");
+        ObservableList<String> listOfImagesFromFile = FXCollections.observableArrayList(listOfImages);
+
+        if (ManageTxtFiles.checkIfPathExists("src/main/resources/images.txt")) {
+            this.listOfImages.setItems(listOfImagesFromFile);
+        } else {
+            this.listOfImages.setItems(null);
+        }
+    }
 
     @FXML
     protected void onImportClick() {
