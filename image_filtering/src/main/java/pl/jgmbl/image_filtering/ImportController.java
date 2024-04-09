@@ -35,7 +35,7 @@ public class ImportController {
 
         try {
             if (ManageTxtFiles.checkIfPathExists(importDirectory)) {
-                manageTxtFiles.writeListToTxtFile(listOfJPGFiles, "src/main/resources/images.txt");
+                manageTxtFiles.writeListToTxtFile(listOfJPGFiles, "src/main/resources/images.txt", true);
 
                 HashSet<String> listOfImagesFromFile = manageTxtFiles.readTxtFile("src/main/resources/images.txt");
                 ObservableList<String> importedImagesListData = FXCollections.observableArrayList(listOfImagesFromFile);
@@ -46,14 +46,27 @@ public class ImportController {
                 importData.setText("List of currently imported JPG/JPEG images:");
                 AddAlert.addInfoAlert("Import succeed", "Import more images or choose filtering option from main menu.");
             } else {
-                AddAlert.addErrorAlert("Import failed", "Check if path is correct.");
+                AddAlert.addErrorAlert("Import failed", "Check if the path is correct.");
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void onDeleteClick() {
-        deleteData.setText("Deleted data");
+    public void onDeleteClick() throws IOException {
+        String deleteDirectory = deletePath.getText();
+
+        if (ManageTxtFiles.checkIfPathExists(deleteDirectory)) {
+
+            manageTxtFiles.deleteImagesByFolderPath(deleteDirectory, "src/main/resources/images.txt");
+            deletePath.clear();
+
+            deleteData.setText("Deleted imported images");
+
+            AddAlert.addInfoAlert("Deletion succeed", "Images are deleted.");
+        } else {
+            AddAlert.addErrorAlert("Deletion failed", "Check if the path is correct.");
+        }
+
     }
 }

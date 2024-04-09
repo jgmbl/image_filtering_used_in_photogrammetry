@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -13,7 +14,7 @@ public class ManageTxtFiles {
     public ManageTxtFiles() {
     }
 
-    public void writeListToTxtFile(HashSet<String> set, String pathToFile) throws IOException {
+    public void writeListToTxtFile(HashSet<String> set, String pathToFile, boolean append) throws IOException {
         Path path = Paths.get(pathToFile);
 
         createTxtFileIfItDoesNotExist(path);
@@ -23,7 +24,11 @@ public class ManageTxtFiles {
         listOfImages.add(System.lineSeparator());
         listOfImages.addAll(set);
 
-        Files.write(path, listOfImages, StandardOpenOption.APPEND);
+        if (append) {
+            Files.write(path, listOfImages, StandardOpenOption.APPEND);
+        } else {
+            Files.write(path, listOfImages, StandardOpenOption.TRUNCATE_EXISTING);
+        }
     }
 
     public HashSet<String> readTxtFile (String filePath) throws IOException {
@@ -41,6 +46,7 @@ public class ManageTxtFiles {
         return listOfFiles;
     }
 
+
     public void createTxtFileIfItDoesNotExist(Path path) {
         if (!Files.exists(path)) {
             try {
@@ -55,5 +61,15 @@ public class ManageTxtFiles {
         Path path1 = Paths.get(path);
 
         return Files.exists(path1);
+    }
+
+    public void deleteImagesByFolderPath(String deletePath, String filePath) throws IOException {
+        HashSet<String> imagesFromTxtFile = readTxtFile(filePath);
+
+        imagesFromTxtFile.removeIf(image -> image.startsWith(deletePath));
+
+        writeListToTxtFile(imagesFromTxtFile, filePath, false);
+
+        System.out.println(imagesFromTxtFile);
     }
 }

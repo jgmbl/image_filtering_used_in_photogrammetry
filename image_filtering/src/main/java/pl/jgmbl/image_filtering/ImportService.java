@@ -2,14 +2,11 @@ package pl.jgmbl.image_filtering;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.HashSet;
 
 public class ImportService {
-    private ManageTxtFiles manageTxtFiles;
-
-    public ImportService(ManageTxtFiles manageTxtFiles) {
-        this.manageTxtFiles = manageTxtFiles;
-    }
+    private ManageTxtFiles manageTxtFiles = new ManageTxtFiles();
 
     public ImportService() {
     }
@@ -33,22 +30,6 @@ public class ImportService {
             }
         }
         return filesAndPathSet;
-    }
-
-    public void deleteImagesByFolderPath(String path) {
-        try {
-            HashSet<String> imagesFromTxtFile = manageTxtFiles.readTxtFile(path);
-
-            for (String image : imagesFromTxtFile) {
-                if (image.contains(path)) {
-                    imagesFromTxtFile.remove(image);
-                }
-            }
-
-            manageTxtFiles.writeListToTxtFile(imagesFromTxtFile, path);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
 
