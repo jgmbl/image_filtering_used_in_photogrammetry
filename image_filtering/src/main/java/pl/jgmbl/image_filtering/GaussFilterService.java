@@ -1,5 +1,6 @@
 package pl.jgmbl.image_filtering;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -12,6 +13,16 @@ public class GaussFilterService {
 
     protected static boolean checkIfParameterIsCorrect (String parameter) {
         return !parameter.isBlank() && checkIfParameterIsFloatNumber(parameter);
+    }
+
+    protected static boolean checkIfImagesAreImported(String importTxtFilePath) {
+        Path path = Paths.get(importTxtFilePath);
+
+        try {
+            return Files.exists(path) && !Files.isDirectory(path) && Files.size(path) != 0;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

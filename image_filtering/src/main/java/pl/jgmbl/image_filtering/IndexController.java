@@ -31,7 +31,11 @@ public class IndexController {
 
     @FXML
     protected void onGaussFilterButtonClick() {
-        openWindow("gauss-view.fxml", "Gauss filter");
+        if (!GaussFilterService.checkIfImagesAreImported("src/main/resources/images.txt")) {
+            AddAlert.addErrorAlert("Filtering is not possible", "Import photos before filtering.");
+        } else {
+            openWindow("gauss-view.fxml", "Gauss filter");
+        }
     }
 
     @FXML

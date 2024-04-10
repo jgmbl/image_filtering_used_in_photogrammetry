@@ -27,6 +27,10 @@ public class GaussFilterController {
         gaussFilterInfo.setWrapText(true);
 
         exportInfo.setText("Enter the full path to the image saving folder: ");
+
+//        if (!GaussFilterService.checkIfImagesAreImported("src/main/resources/images.txt")) {
+//            AddAlert.addErrorAlert("Filtering is not possible", "Import photos before filtering.");
+//        }
     }
 
 
