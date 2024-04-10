@@ -1,5 +1,6 @@
 package pl.jgmbl.image_filtering;
 
+import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Size;
 import org.opencv.imgcodecs.Imgcodecs;
@@ -9,14 +10,14 @@ import java.io.IOException;
 import java.util.Set;
 
 public class ProcessFiles {
-    private final ManageTxtFiles manageTxtFiles;
-
-    public ProcessFiles(ManageTxtFiles manageTxtFiles) {
-        this.manageTxtFiles = manageTxtFiles;
+    static {
+        nu.pattern.OpenCV.loadLocally();
     }
 
+    private final ManageTxtFiles manageTxtFiles = new ManageTxtFiles();
+
     /** Absolute paths to images are stored in txt file */
-    private void gaussianFiltering (String txtFilePath, String outputFolderPath, float blurParameter) throws IOException {
+    public void gaussianFiltering (String txtFilePath, String outputFolderPath, float blurParameter) throws IOException {
         Set<String> setOfImagesPaths = manageTxtFiles.readTxtFile(txtFilePath);
 
         double kernelSize = (double) blurParameter;
