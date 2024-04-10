@@ -41,11 +41,11 @@ public class GaussFilterController {
         blurringParameter.clear();
         gaussExportPath.clear();
 
-        if (!GaussFilterService.checkIfExportPathIsCorrect(exportPath)) {
+        if (!InputValidationService.checkIfExportPathIsCorrect(exportPath)) {
             AddAlert.addErrorAlert("Export failed", "Check if the folder path is correct.");
         }
 
-        if (GaussFilterService.checkIfParameterIsCorrect(blurringParameterString)) {
+        if (InputValidationService.checkIfParameterIsCorrect(blurringParameterString)) {
             float blurringParameterValue = Float.parseFloat(blurringParameterString);
         } else {
             AddAlert.addErrorAlert("Export failed", "Check if the blur parameter is correct.");
