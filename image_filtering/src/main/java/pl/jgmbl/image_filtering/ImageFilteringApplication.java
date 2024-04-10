@@ -1,5 +1,7 @@
 package pl.jgmbl.image_filtering;
 
+import org.opencv.core.Core;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -9,6 +11,10 @@ import java.io.File;
 import java.io.IOException;
 
 public class ImageFilteringApplication extends Application {
+    static {
+        System.loadLibrary(Core.NATIVE_LIBRARY_NAME); // Wczytanie biblioteki OpenCV
+    }
+
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(ImageFilteringApplication.class.getResource("index-view.fxml"));
