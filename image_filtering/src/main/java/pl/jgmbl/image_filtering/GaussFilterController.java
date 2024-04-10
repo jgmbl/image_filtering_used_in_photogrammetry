@@ -8,13 +8,13 @@ import javafx.scene.control.TextField;
 public class GaussFilterController {
     @FXML
     private Label gaussFilterInfo;
+    @FXML
+    private TextField blurringParameter;
 
     @FXML
     private Label exportInfo;
     @FXML
     private TextField gaussExportPath;
-    @FXML
-    private TextField blurring;
     @FXML
     private Label exportData;
     @FXML
@@ -31,6 +31,12 @@ public class GaussFilterController {
 
 
     public void onExportClick() {
+        String blurringParameterString = blurringParameter.getText();
+        String exportPath = gaussExportPath.getText();
+        float blurringParameterValue = Float.parseFloat(blurringParameterString);
+
+        blurringParameter.clear();
+        gaussExportPath.clear();
         
     }
 }
