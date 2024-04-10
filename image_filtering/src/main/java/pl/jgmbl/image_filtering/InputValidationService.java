@@ -12,7 +12,8 @@ public class InputValidationService {
     }
 
     public static boolean checkIfParameterIsCorrect (String parameter) {
-        return !parameter.isBlank() && checkIfParameterIsFloatNumber(parameter);
+        return !parameter.isBlank() && checkIfParameterIsNumber(parameter)
+                && isParameterCorrectNumber(parameter);
     }
 
     public static boolean checkIfImagesAreImported(String importTxtFilePath) {
@@ -26,12 +27,22 @@ public class InputValidationService {
     }
 
 
-    private static boolean checkIfParameterIsFloatNumber(String parameter) {
+    private static boolean checkIfParameterIsNumber(String parameter) {
         for (char character : parameter.toCharArray()) {
-            if (!Character.isDigit(character) && character != '.' && character != ',') {
+            if (!Character.isDigit(character)) {
                 return false;
             }
         }
         return true;
+    }
+
+    private static boolean isParameterCorrectNumber(String parameter) {
+        double parameterValue = Double.parseDouble(parameter);
+
+        if (parameterValue == 3 || parameterValue == 5 || parameterValue == 9 || parameterValue == 15) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

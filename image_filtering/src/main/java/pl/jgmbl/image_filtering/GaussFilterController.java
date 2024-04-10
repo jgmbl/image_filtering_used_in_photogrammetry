@@ -32,8 +32,8 @@ public class GaussFilterController {
 
     public void initialize() {
         gaussFilterInfo.setText("Gauss filtering is used to reduce noise and smooth the image." +
-                " The value of the blur depends on the blur parameter, whose value varies from 0.5 to 5.0." +
-                " The Gauss filter evenly blurs the image. \n \n" + "Value of blur parameter: ");
+                " The value of the blur depends on the size of kernel. \n" +
+                "The Gauss filter evenly blurs the image. \n \n" + "Value of blur parameter [3, 5, 9, 15]: ");
         gaussFilterInfo.setWrapText(true);
 
         exportInfo.setText("Enter the full path to the image saving folder: ");
@@ -41,11 +41,9 @@ public class GaussFilterController {
 
 
     public void onExportClick() {
-        String blurringParameterString = blurringParameter.getText();
         String exportPath = gaussExportPath.getText();
-
-        blurringParameter.clear();
-        gaussExportPath.clear();
+        String blurringParameterString = blurringParameter.getText();
+        double blurringParameterValue = Double.parseDouble(blurringParameterString);
 
         if (!InputValidationService.checkIfExportPathIsCorrect(exportPath)) {
             AddAlert.addErrorAlert("Export failed", "Check if the folder path is correct.");
@@ -54,7 +52,6 @@ public class GaussFilterController {
         if (!InputValidationService.checkIfParameterIsCorrect(blurringParameterString)) {
             AddAlert.addErrorAlert("Export failed", "Check if the blur parameter is correct.");
         }
-        float blurringParameterValue = Float.parseFloat(blurringParameterString);
 
         try {
             processFiles.gaussianFiltering(PATH, exportPath, blurringParameterValue);
@@ -63,8 +60,14 @@ public class GaussFilterController {
 
             ObservableList<String> blurredImagesObservableList = FXCollections.observableArrayList(listOfBlurredImages);
 
-
+            exportData.setText("Exported images: ");
             exportedImagesList.setItems(blurredImagesObservableList);
+
+            gaussExportPath.clear();
+            blurringParameter.clear();
+
+            AddAlert.addInfoAlert("Export succeed", "Filtered images are saved here " + exportPath);
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
