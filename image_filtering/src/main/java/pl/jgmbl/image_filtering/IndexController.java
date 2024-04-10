@@ -26,12 +26,12 @@ public class IndexController {
     @FXML
     protected void onImportButtonClick() {
 
-        openImportWindow();
+        openWindow("import-view.fxml", "Import");
     }
 
     @FXML
     protected void onGaussFilterButtonClick() {
-        gaussFilter.setText("Filtering images...");
+        openWindow("gauss-view.fxml", "Gauss filter");
     }
 
     @FXML
@@ -44,17 +44,17 @@ public class IndexController {
         unsharpMasking.setText("Filtering images...");
     }
 
-    private void openImportWindow() {
+    private void openWindow(String resource, String title) {
         try {
             manageTxtFiles.createTxtFileIfItDoesNotExist(Paths.get(PATH));
 
             FXMLLoader fxmlLoader = new FXMLLoader();
             Stage stage = new Stage();
 
-            fxmlLoader.setLocation(getClass().getResource("import-view.fxml"));
+            fxmlLoader.setLocation(getClass().getResource(resource));
 
             Scene scene = new Scene(fxmlLoader.load(), 1920, 1080);
-            stage.setTitle("Import");
+            stage.setTitle(title);
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
