@@ -11,10 +11,6 @@ import java.io.File;
 import java.io.IOException;
 
 public class ImageFilteringApplication extends Application {
-    static {
-        System.loadLibrary(Core.NATIVE_LIBRARY_NAME); // Wczytanie biblioteki OpenCV
-    }
-
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(ImageFilteringApplication.class.getResource("index-view.fxml"));

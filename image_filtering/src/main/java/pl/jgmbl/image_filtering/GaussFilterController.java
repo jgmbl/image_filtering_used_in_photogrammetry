@@ -5,7 +5,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
+import java.io.IOException;
+
 public class GaussFilterController {
+    String PATH = "src/main/resources/images.txt";
+
     @FXML
     private Label gaussFilterInfo;
     @FXML
@@ -20,6 +24,9 @@ public class GaussFilterController {
     @FXML
     private ListView<String> exportedImagesList;
 
+    private final ProcessFiles processFiles = new ProcessFiles();
+
+
     public void initialize() {
         gaussFilterInfo.setText("Gauss filtering is used to reduce noise and smooth the image." +
                 " The value of the blur depends on the blur parameter, whose value varies from 0.5 to 5.0." +
@@ -27,10 +34,6 @@ public class GaussFilterController {
         gaussFilterInfo.setWrapText(true);
 
         exportInfo.setText("Enter the full path to the image saving folder: ");
-
-//        if (!GaussFilterService.checkIfImagesAreImported("src/main/resources/images.txt")) {
-//            AddAlert.addErrorAlert("Filtering is not possible", "Import photos before filtering.");
-//        }
     }
 
 
@@ -45,10 +48,17 @@ public class GaussFilterController {
             AddAlert.addErrorAlert("Export failed", "Check if the folder path is correct.");
         }
 
-        if (InputValidationService.checkIfParameterIsCorrect(blurringParameterString)) {
-            float blurringParameterValue = Float.parseFloat(blurringParameterString);
-        } else {
+        if (!InputValidationService.checkIfParameterIsCorrect(blurringParameterString)) {
             AddAlert.addErrorAlert("Export failed", "Check if the blur parameter is correct.");
         }
+        float blurringParameterValue = Float.parseFloat(blurringParameterString);
+
+        try {
+            processFiles.gaussianFiltering(PATH, exportPath, blurringParameterValue);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
     }
 }
