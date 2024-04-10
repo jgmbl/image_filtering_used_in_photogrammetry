@@ -1,11 +1,14 @@
 package pl.jgmbl.image_filtering;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
+import java.util.List;
 
 public class GaussFilterController {
     String PATH = "src/main/resources/images.txt";
@@ -24,7 +27,7 @@ public class GaussFilterController {
     @FXML
     private ListView<String> exportedImagesList;
 
-    private final ProcessFiles processFiles = new ProcessFiles();
+    private final ProcessFilesService processFiles = new ProcessFilesService();
 
 
     public void initialize() {
@@ -55,6 +58,13 @@ public class GaussFilterController {
 
         try {
             processFiles.gaussianFiltering(PATH, exportPath, blurringParameterValue);
+
+            List<String> listOfBlurredImages = processFiles.listOfFilteredImages(exportPath);
+
+            ObservableList<String> blurredImagesObservableList = FXCollections.observableArrayList(listOfBlurredImages);
+
+
+            exportedImagesList.setItems(blurredImagesObservableList);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

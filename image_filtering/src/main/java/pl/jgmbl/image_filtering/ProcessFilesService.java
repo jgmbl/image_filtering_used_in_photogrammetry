@@ -1,15 +1,17 @@
 package pl.jgmbl.image_filtering;
 
-import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Size;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
-public class ProcessFiles {
+public class ProcessFilesService {
     static {
         nu.pattern.OpenCV.loadLocally();
     }
@@ -31,5 +33,22 @@ public class ProcessFiles {
             String imageName = imagePath.substring(imagePath.lastIndexOf('/') + 1);
             boolean imrite = Imgcodecs.imwrite(outputFolderPath + "gaussian_" + imageName, destinationMatrix);
         }
+    }
+
+    public List<String> listOfFilteredImages(String folderPath) {
+        ArrayList<String> listOfImages = new ArrayList<>();
+
+        File file = new File(folderPath);
+        File[] files = file.listFiles();
+        
+        if (files != null) {
+            for (File file1 : files) {
+                if (file1.isFile()) {
+                    listOfImages.add(file1.getName());
+                }
+            }
+        }
+        
+        return listOfImages;
     }
 }
