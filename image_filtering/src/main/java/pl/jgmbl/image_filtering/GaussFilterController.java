@@ -6,7 +6,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
 
@@ -27,7 +30,13 @@ public class GaussFilterController {
     @FXML
     private ListView<String> exportedImagesList;
 
-    private final ProcessFilesService processFiles = new ProcessFilesService();
+    @FXML
+    private Label sampleImageInfo;
+    @FXML
+    private ImageView sampleImage;
+
+    private final ProcessImagesService processFiles = new ProcessImagesService();
+    private final ManageImages manageImages = new ManageImages();
 
 
     public void initialize() {
@@ -37,6 +46,8 @@ public class GaussFilterController {
         gaussFilterInfo.setWrapText(true);
 
         exportInfo.setText("Enter the full path to the image saving folder: ");
+
+        sampleImageInfo.setText("Sample image:");
     }
 
 
@@ -71,10 +82,12 @@ public class GaussFilterController {
 
             AddAlert.addInfoAlert("Export succeed", "Filtered images are saved.");
 
+            FileInputStream input = new FileInputStream(manageImages.returnFirstFilteredImage(exportPath));
+            Image image = new Image(input);
+            sampleImage.setImage(image);
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-
     }
 }

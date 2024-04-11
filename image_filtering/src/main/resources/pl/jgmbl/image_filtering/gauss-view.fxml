@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="pl.jgmbl.image_filtering.GaussFilterController"
@@ -27,7 +28,8 @@
         </VBox>
 
         <VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml">
-            <Label fx:id="imageInfo" VBox.vgrow="ALWAYS"/>
+            <Label fx:id="sampleImageInfo" VBox.vgrow="ALWAYS"/>
+            <ImageView fx:id="sampleImage" fitWidth="600" fitHeight="400"/>
         </VBox>
     </HBox>
 
