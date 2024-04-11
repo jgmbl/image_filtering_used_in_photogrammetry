@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -13,6 +14,8 @@ public class IndexController {
     private final ManageTxtFiles manageTxtFiles = new ManageTxtFiles();
     private final String PATH = "src/main/resources/images.txt";
 
+    @FXML
+    private Label appInfo;
 
     @FXML
     private Label unsharpMasking;
@@ -22,6 +25,18 @@ public class IndexController {
     private Label gaussFilter;
     @FXML
     private Label medianFilter;
+
+    @FXML
+    private Label aboutCreator;
+
+    public void initialize() {
+        appInfo.setText("The application is designed for photogrammetric purposes." +
+                " It will improve the quality of your point cloud and 3D model." +
+                " With it, the common points of the images will be accurately connected. \n" +
+                "You can only import and save JPG/JPEG images. Remember to prepare disk space before exporting." +
+                " For more information about the properties of the filters, see the individual tabs.");
+        aboutCreator.setText("\n \n \n Check out my other projects at https://github.com/jgmbl");
+    }
 
     @FXML
     protected void onImportButtonClick() {
