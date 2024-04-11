@@ -75,18 +75,14 @@ public class GaussFilterController {
             return;
         }
 
-
         double blurringParameterValue = Double.parseDouble(blurringParameterString);
-
 
         processFiles.gaussianFiltering(TXT_PATH, exportPath, blurringParameterValue);
 
-
-        List<String> listOfBlurredImages = processFiles.listOfFilteredImages(exportPath);
-
+        List<String> listOfBlurredImages = processFiles.listOfFilteredImages(exportPath, "gaussian_");
         ObservableList<String> blurredImagesObservableList = FXCollections.observableArrayList(listOfBlurredImages);
 
-        exportData.setText("List of images in export folder: ");
+        exportData.setText("List of filtered images in export folder: ");
         exportedImagesList.setItems(blurredImagesObservableList);
 
         gaussExportPath.clear();

@@ -34,7 +34,7 @@ public class ProcessImagesService {
         }
     }
 
-    public List<String> listOfFilteredImages(String folderPath) {
+    public List<String> listOfFilteredImages(String folderPath, String prefix) {
         ArrayList<String> listOfImages = new ArrayList<>();
 
         File file = new File(folderPath);
@@ -43,7 +43,9 @@ public class ProcessImagesService {
         if (files != null) {
             for (File file1 : files) {
                 if (file1.isFile()) {
-                    listOfImages.add(file1.getName());
+                    if (file1.getName().contains(prefix)) {
+                        listOfImages.add(file1.getName());
+                    }
                 }
             }
         }
