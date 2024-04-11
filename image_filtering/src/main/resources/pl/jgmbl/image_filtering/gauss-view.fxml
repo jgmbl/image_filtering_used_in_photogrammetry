@@ -25,6 +25,10 @@
             <Label fx:id="exportData"/>
             <ListView fx:id="exportedImagesList"/>
         </VBox>
+
+        <VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml">
+            <Label fx:id="imageInfo" VBox.vgrow="ALWAYS"/>
+        </VBox>
     </HBox>
 
 </AnchorPane>

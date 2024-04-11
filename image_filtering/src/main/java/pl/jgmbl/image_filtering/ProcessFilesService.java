@@ -19,10 +19,9 @@ public class ProcessFilesService {
     private final ManageTxtFiles manageTxtFiles = new ManageTxtFiles();
 
     /** Absolute paths to images are stored in txt file */
-    public void gaussianFiltering (String txtFilePath, String outputFolderPath, float blurParameter) throws IOException {
+    public void gaussianFiltering (String txtFilePath, String outputFolderPath, Double kernelSize) throws IOException {
         Set<String> setOfImagesPaths = manageTxtFiles.readTxtFile(txtFilePath);
 
-        double kernelSize = (double) blurParameter;
 
         for (String imagePath : setOfImagesPaths) {
             Mat src = Imgcodecs.imread(imagePath);

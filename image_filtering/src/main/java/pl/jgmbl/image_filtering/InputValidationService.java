@@ -8,11 +8,11 @@ import java.nio.file.Paths;
 public class InputValidationService {
     public static boolean checkIfExportPathIsCorrect(String folderPath) {
         Path path = Paths.get(folderPath);
-        return !folderPath.isBlank() && Files.isDirectory(path) && Files.exists(path);
+        return !folderPath.isBlank() && !folderPath.isEmpty() && Files.isDirectory(path) && Files.exists(path);
     }
 
-    public static boolean checkIfParameterIsCorrect (String parameter) {
-        return !parameter.isBlank() && checkIfParameterIsNumber(parameter)
+    public static boolean checkIfParameterIsCorrect(String parameter) {
+        return !parameter.isBlank() && !parameter.isEmpty() && checkIfParameterIsNumber(parameter)
                 && isParameterCorrectNumber(parameter);
     }
 
@@ -25,7 +25,6 @@ public class InputValidationService {
             throw new RuntimeException(e);
         }
     }
-
 
     private static boolean checkIfParameterIsNumber(String parameter) {
         for (char character : parameter.toCharArray()) {

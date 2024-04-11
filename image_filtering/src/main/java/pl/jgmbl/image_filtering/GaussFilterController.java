@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class GaussFilterController {
-    String PATH = "src/main/resources/images.txt";
+    String TXT_PATH = "src/main/resources/images.txt";
 
     @FXML
     private Label gaussFilterInfo;
@@ -43,30 +43,33 @@ public class GaussFilterController {
     public void onExportClick() {
         String exportPath = gaussExportPath.getText();
         String blurringParameterString = blurringParameter.getText();
-        double blurringParameterValue = Double.parseDouble(blurringParameterString);
 
         if (!InputValidationService.checkIfExportPathIsCorrect(exportPath)) {
             AddAlert.addErrorAlert("Export failed", "Check if the folder path is correct.");
+            return;
         }
 
         if (!InputValidationService.checkIfParameterIsCorrect(blurringParameterString)) {
             AddAlert.addErrorAlert("Export failed", "Check if the blur parameter is correct.");
+            return;
         }
 
+        double blurringParameterValue = Double.parseDouble(blurringParameterString);
+
         try {
-            processFiles.gaussianFiltering(PATH, exportPath, blurringParameterValue);
+            processFiles.gaussianFiltering(TXT_PATH, exportPath, blurringParameterValue);
 
             List<String> listOfBlurredImages = processFiles.listOfFilteredImages(exportPath);
 
             ObservableList<String> blurredImagesObservableList = FXCollections.observableArrayList(listOfBlurredImages);
 
-            exportData.setText("Exported images: ");
+            exportData.setText("List of images in export folder: ");
             exportedImagesList.setItems(blurredImagesObservableList);
 
             gaussExportPath.clear();
             blurringParameter.clear();
 
-            AddAlert.addInfoAlert("Export succeed", "Filtered images are saved here " + exportPath);
+            AddAlert.addInfoAlert("Export succeed", "Filtered images are saved.");
 
         } catch (IOException e) {
             throw new RuntimeException(e);
