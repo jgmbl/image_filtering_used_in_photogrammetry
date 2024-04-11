@@ -24,7 +24,6 @@
             <TextField fx:id="gaussExportPath" promptText="Folder path" prefWidth="400"/>
             <Button text="Export" onAction="#onExportClick"/>
             <Label fx:id="exportData"/>
-            <ProgressBar fx:id="exportBar" VBox.vgrow="NEVER" />
             <ListView fx:id="exportedImagesList"/>
         </VBox>
 
