@@ -50,4 +50,22 @@ public class ProcessImagesService {
         
         return listOfImages;
     }
+
+    public String returnFirstFilteredImage(String folderPath, String prefix) {
+        String pathToFile = "";
+        File directory = new File(folderPath);
+        File[] files = directory.listFiles();
+        String absolutePath = directory.getAbsolutePath();
+
+        if (files != null) {
+            for (File file : files) {
+                String image = file.getName();
+                if (ManageTxtFiles.checkJpgJpegExtensions(image) && image.contains(prefix)) {
+                    pathToFile = absolutePath + '/' + image;
+                    break;
+                }
+            }
+        }
+        return pathToFile;
+    }
 }

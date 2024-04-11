@@ -36,7 +36,6 @@ public class GaussFilterController {
     private ImageView sampleImage;
 
     private final ProcessImagesService processFiles = new ProcessImagesService();
-    private final ManageImages manageImages = new ManageImages();
 
 
     public void initialize() {
@@ -82,7 +81,7 @@ public class GaussFilterController {
 
             AddAlert.addInfoAlert("Export succeed", "Filtered images are saved. If you want to change the level of blur, just do the filtering again.");
 
-            FileInputStream input = new FileInputStream(manageImages.returnFirstFilteredImage(exportPath));
+            FileInputStream input = new FileInputStream(processFiles.returnFirstFilteredImage(exportPath, "gaussian"));
             Image image = new Image(input);
             sampleImage.setImage(image);
 
