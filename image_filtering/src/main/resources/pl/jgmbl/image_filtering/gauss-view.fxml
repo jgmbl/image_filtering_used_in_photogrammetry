@@ -15,13 +15,13 @@
         </padding>
 
         <VBox alignment="CENTER" spacing="20.0" prefWidth="400" xmlns:fx="http://javafx.com/fxml">
-            <Label fx:id="gaussFilterInfo" VBox.vgrow="ALWAYS"/>
+            <Label fx:id="filterInfo" VBox.vgrow="ALWAYS"/>
             <TextField fx:id="blurringParameter" promptText="The value of the blur parameter" prefWidth="400"/>
         </VBox>
 
         <VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml">
             <Label fx:id="exportInfo" VBox.vgrow="ALWAYS"/>
-            <TextField fx:id="gaussExportPath" promptText="Folder path" prefWidth="400"/>
+            <TextField fx:id="exportPath" promptText="Folder path" prefWidth="400"/>
             <Button text="Export" onAction="#onExportClick"/>
             <Label fx:id="exportData"/>
             <ListView fx:id="exportedImagesList"/>
