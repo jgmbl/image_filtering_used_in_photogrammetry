@@ -45,7 +45,7 @@ public class GaussFilterController {
                 "The Gauss filter evenly blurs the image. \n \n" + "Value of blur parameter [3, 5, 9, 15]: ");
         gaussFilterInfo.setWrapText(true);
 
-        exportInfo.setText("Enter the full path to the image saving folder: ");
+        exportInfo.setText("Enter the full path to the image saving folder [ex. /images/gaussian/]: ");
 
         sampleImageInfo.setText("Sample image:");
     }
@@ -80,7 +80,7 @@ public class GaussFilterController {
             gaussExportPath.clear();
             blurringParameter.clear();
 
-            AddAlert.addInfoAlert("Export succeed", "Filtered images are saved.");
+            AddAlert.addInfoAlert("Export succeed", "Filtered images are saved. If you want to change the level of blur, just do the filtering again.");
 
             FileInputStream input = new FileInputStream(manageImages.returnFirstFilteredImage(exportPath));
             Image image = new Image(input);
