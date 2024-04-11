@@ -4,7 +4,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -12,7 +11,7 @@ import java.nio.file.Paths;
 
 public class IndexController {
     private final ManageTxtFiles manageTxtFiles = new ManageTxtFiles();
-    private final String PATH = "src/main/resources/images.txt";
+    private final String IMAGES_TXT_PATH = "src/main/resources/images.txt";
 
     @FXML
     private Label appInfo;
@@ -46,16 +45,12 @@ public class IndexController {
 
     @FXML
     protected void onGaussFilterButtonClick() {
-        if (!InputValidationService.checkIfImagesAreImported("src/main/resources/images.txt")) {
-            AddAlert.addErrorAlert("Filtering is not possible", "Import photos before filtering.");
-        } else {
-            openWindow("gauss-view.fxml", "Gauss filter");
-        }
+        filterButton("gauss-view.fxml", "Gauss Filter");
     }
 
     @FXML
     protected void onMedianFilterButtonClick() {
-        medianFilter.setText("Filtering images...");
+        filterButton("median-view.fxml", "Median Filter");
     }
 
     @FXML
@@ -63,9 +58,18 @@ public class IndexController {
         unsharpMasking.setText("Filtering images...");
     }
 
+
+    private void filterButton (String resource, String title) {
+        if (!InputValidationService.checkIfImagesAreImported(IMAGES_TXT_PATH)) {
+            AddAlert.addErrorAlert("Filtering is not possible", "Import photos before filtering.");
+        } else {
+            openWindow(resource, title);
+        }
+    }
+
     private void openWindow(String resource, String title) {
         try {
-            manageTxtFiles.createTxtFileIfItDoesNotExist(Paths.get(PATH));
+            manageTxtFiles.createTxtFileIfItDoesNotExist(Paths.get(IMAGES_TXT_PATH));
 
             FXMLLoader fxmlLoader = new FXMLLoader();
             Stage stage = new Stage();
