@@ -39,8 +39,8 @@ public class MedianFilterController {
 
 
     public void initialize() {
-        filterInfo.setText("Gauss filtering is used to reduce noise and evenly smooth the image." +
-                " The value of the blur depends on the size of kernel. \n \n" +
+        filterInfo.setText("Median filtering is used to reduce noise while smoothing and preserving edge sharpness." +
+                " It is much more effective at reducing noise than Gaussian filtering. \n \n" +
                 "Exporting overwrites the data. If you want to do some filtering, be sure to change the save folder." +
                 " The process will end when the message is displayed. \n \n" + "Value of blur parameter [3, 5, 9, 15]: ");
         filterInfo.setWrapText(true);
