@@ -24,7 +24,11 @@ public class ImportService {
             if (files != null) {
                 for (File file : files) {
                     if (ManageTxtFiles.checkJpgJpegExtensions(file.getName())) {
-                        filesAndPathSet.add(path + file.getName());
+                        if (!path.endsWith("/")) {
+                            filesAndPathSet.add(path + '/' + file.getName());
+                        } else {
+                            filesAndPathSet.add(path + file.getName());
+                        }
                     }
                 }
             }

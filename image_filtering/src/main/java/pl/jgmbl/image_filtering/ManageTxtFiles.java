@@ -18,8 +18,6 @@ public class ManageTxtFiles {
     public void writeListToTxtFile(Set<String> set, String pathToFile, boolean append) throws IOException {
         Path path = Paths.get(pathToFile);
 
-
-
         createTxtFileIfItDoesNotExist(path);
 
         if (append) {
