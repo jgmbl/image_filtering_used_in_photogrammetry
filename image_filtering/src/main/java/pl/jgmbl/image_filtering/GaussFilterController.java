@@ -66,7 +66,7 @@ public class GaussFilterController {
             return;
         }
 
-        double blurringParameterValue = Double.parseDouble(blurringParameterString);
+        int blurringParameterValue = Integer.parseInt(blurringParameterString);
 
         processFiles.filtering("gaussian", IMAGES_TXT_PATH, exportPath, blurringParameterValue);
 
