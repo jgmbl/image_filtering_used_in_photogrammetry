@@ -7,8 +7,9 @@ import java.nio.file.Paths;
 
 public class InputValidationService {
     public static boolean checkIfExportPathIsCorrect(String folderPath) {
-        Path path = Paths.get(folderPath);
-        return !folderPath.isBlank() && !folderPath.isEmpty() && Files.isDirectory(path) && Files.exists(path);
+        String correctPath = returnCorrectPath(folderPath);
+        Path path = Paths.get(correctPath);
+        return !correctPath.isBlank() && !correctPath.isEmpty() && Files.isDirectory(path) && Files.exists(path);
     }
 
     public static boolean checkIfParameterIsCorrect(String parameter) {
@@ -42,6 +43,19 @@ public class InputValidationService {
             return true;
         } else {
             return false;
+        }
+    }
+
+    public static String returnCorrectPath (String folderPath) {
+
+        if (folderPath != null && !folderPath.isEmpty()) {
+            if (!folderPath.endsWith("/")) {
+                return folderPath + "/";
+            } else {
+                return folderPath;
+            }
+        } else {
+            return "";
         }
     }
 }

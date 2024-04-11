@@ -39,12 +39,12 @@ public class GaussFilterController {
 
 
     public void initialize() {
-        gaussFilterInfo.setText("Gauss filtering is used to reduce noise and smooth the image." +
+        gaussFilterInfo.setText("Gauss filtering is used to reduce noise and smooth the image and evenly blurs the image." +
                 " The value of the blur depends on the size of kernel. \n" +
-                "The Gauss filter evenly blurs the image. \n \n" + "Value of blur parameter [3, 5, 9, 15]: ");
+                " Exporting overwrites the data. If you want to do some filtering, be sure to change the save folder.\n \n" + "Value of blur parameter [3, 5, 9, 15]: ");
         gaussFilterInfo.setWrapText(true);
 
-        exportInfo.setText("Enter the full path to the image saving folder [ex. /images/gaussian/]: ");
+        exportInfo.setText("Enter the full path to the image saving folder: ");
 
         sampleImageInfo.setText("Sample image:");
     }
@@ -53,6 +53,8 @@ public class GaussFilterController {
     public void onExportClick() {
         String exportPath = gaussExportPath.getText();
         String blurringParameterString = blurringParameter.getText();
+
+        exportPath = InputValidationService.returnCorrectPath(exportPath);
 
         if (!InputValidationService.checkIfExportPathIsCorrect(exportPath)) {
             AddAlert.addErrorAlert("Export failed", "Check if the folder path is correct.");
@@ -63,6 +65,8 @@ public class GaussFilterController {
             AddAlert.addErrorAlert("Export failed", "Check if the blur parameter is correct.");
             return;
         }
+
+
 
         double blurringParameterValue = Double.parseDouble(blurringParameterString);
 
