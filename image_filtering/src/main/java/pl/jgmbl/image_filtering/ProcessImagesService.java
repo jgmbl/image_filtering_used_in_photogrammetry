@@ -19,7 +19,7 @@ public class ProcessImagesService {
     private final ManageTxtFiles manageTxtFiles = new ManageTxtFiles();
 
     /** Absolute paths to images are stored in txt file */
-    public void gaussianFiltering (String txtFilePath, String outputFolderPath, Double kernelSize) throws IOException {
+    public void filtering(String type, String txtFilePath, String outputFolderPath, Double kernelSize) throws IOException {
         Set<String> setOfImagesPaths = manageTxtFiles.readTxtFile(txtFilePath);
 
 
@@ -27,11 +27,20 @@ public class ProcessImagesService {
             Mat src = Imgcodecs.imread(imagePath);
             Mat destinationMatrix = new Mat(src.rows(), src.cols(), src.type());
 
-            Imgproc.GaussianBlur(src, destinationMatrix, new Size(kernelSize, kernelSize), 0);
-
-            String imageName = imagePath.substring(imagePath.lastIndexOf('/') + 1);
-            boolean imrite = Imgcodecs.imwrite(outputFolderPath + "gaussian_" + imageName, destinationMatrix);
+            if (type.equals("gaussian")) {
+                gaussianFiltering(src, destinationMatrix, kernelSize);
+                saveFilteredImage("gaussian", imagePath, outputFolderPath, destinationMatrix);
+            }
         }
+    }
+
+    private void gaussianFiltering(Mat source, Mat destinationMatrix, Double kernelSize) {
+        Imgproc.GaussianBlur(source, destinationMatrix, new Size(kernelSize, kernelSize), 0);
+    }
+
+    private void saveFilteredImage (String type, String imagePath, String outputFolderPath, Mat destinationMatrix) {
+        String imageName = imagePath.substring(imagePath.lastIndexOf('/') + 1);
+        boolean imrite = Imgcodecs.imwrite(outputFolderPath + type + "_" + imageName, destinationMatrix);
     }
 
     public List<String> listOfFilteredImages(String folderPath, String prefix) {

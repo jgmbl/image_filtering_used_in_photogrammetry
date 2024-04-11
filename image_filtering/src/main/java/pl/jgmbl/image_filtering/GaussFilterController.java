@@ -68,7 +68,7 @@ public class GaussFilterController {
 
         double blurringParameterValue = Double.parseDouble(blurringParameterString);
 
-        processFiles.gaussianFiltering(IMAGES_TXT_PATH, exportPath, blurringParameterValue);
+        processFiles.filtering("gaussian", IMAGES_TXT_PATH, exportPath, blurringParameterValue);
 
         List<String> listOfBlurredImages = processFiles.listOfFilteredImages(exportPath, "gaussian_");
         ObservableList<String> blurredImagesObservableList = FXCollections.observableArrayList(listOfBlurredImages);
