@@ -19,7 +19,7 @@ public class ProcessImagesService {
     private final ManageTxtFiles manageTxtFiles = new ManageTxtFiles();
 
     /** Absolute paths to images are stored in txt file */
-    public void filtering(String type, String txtFilePath, String outputFolderPath, Double kernelSize) throws IOException {
+    public void filtering(String type, String txtFilePath, String outputFolderPath, Integer kernelSize) throws IOException {
         Set<String> setOfImagesPaths = manageTxtFiles.readTxtFile(txtFilePath);
 
 
@@ -28,14 +28,22 @@ public class ProcessImagesService {
             Mat destinationMatrix = new Mat(src.rows(), src.cols(), src.type());
 
             if (type.equals("gaussian")) {
-                gaussianFiltering(src, destinationMatrix, kernelSize);
+                gaussianFiltering(src, destinationMatrix, (double) kernelSize);
                 saveFilteredImage("gaussian", imagePath, outputFolderPath, destinationMatrix);
+            } else if (type.equals("median")) {
+                medianFiltering(src, destinationMatrix, kernelSize);
+                saveFilteredImage("median", imagePath, outputFolderPath, destinationMatrix);
             }
         }
     }
 
-    private void gaussianFiltering(Mat source, Mat destinationMatrix, Double kernelSize) {
-        Imgproc.GaussianBlur(source, destinationMatrix, new Size(kernelSize, kernelSize), 0);
+
+    private void gaussianFiltering(Mat source, Mat dst, Double kernelSize) {
+        Imgproc.GaussianBlur(source, dst, new Size(kernelSize, kernelSize), 0);
+    }
+
+    private void medianFiltering(Mat source, Mat dst, int kernelSize) {
+        Imgproc.medianBlur(source, dst, kernelSize);
     }
 
     private void saveFilteredImage (String type, String imagePath, String outputFolderPath, Mat destinationMatrix) {
@@ -43,6 +51,7 @@ public class ProcessImagesService {
         boolean imrite = Imgcodecs.imwrite(outputFolderPath + type + "_" + imageName, destinationMatrix);
     }
 
+    
     public List<String> listOfFilteredImages(String folderPath, String prefix) {
         ArrayList<String> listOfImages = new ArrayList<>();
 
