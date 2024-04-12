@@ -1,5 +1,7 @@
 package pl.jgmbl.image_filtering;
 
+import java.io.IOException;
+
 public interface FilterController {
-    void onExportClick();
+    void onExportClick() throws IOException;
 }

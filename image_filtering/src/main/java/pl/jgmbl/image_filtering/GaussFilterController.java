@@ -7,14 +7,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
+import javax.swing.text.html.ImageView;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
 
-public class GaussFilterController {
-    String IMAGES_TXT_PATH = "src/main/resources/images.txt";
+public class GaussFilterController extends IndexFilterController{
+    public final String typeOfFiltering = "gaussian";
 
     @FXML
     private Label filterInfo;
@@ -32,10 +32,10 @@ public class GaussFilterController {
 
     @FXML
     private Label sampleImageInfo;
-    @FXML
-    private ImageView sampleImage;
+//    @FXML
+//    private ImageView sampleImage;
 
-    private final ProcessImagesService processFiles = new ProcessImagesService();
+//    private final ProcessImagesService processImagesService = new ProcessImagesService();
 
 
     public void initialize() {
@@ -49,40 +49,20 @@ public class GaussFilterController {
         sampleImageInfo.setText("Sample image:");
     }
 
-
-    public void onExportClick() throws IOException {
+    @FXML
+    @Override
+    public void onExportClick() {
         String exportPath = this.exportPath.getText();
         String blurringParameterString = blurringParameter.getText();
-
-        exportPath = InputValidationService.returnCorrectPath(exportPath);
-
-        if (!InputValidationService.checkIfExportPathIsCorrect(exportPath)) {
-            AddAlert.addErrorAlert("Export failed", "Check if the folder path is correct.");
-            return;
-        }
-
-        if (!InputValidationService.checkIfParameterIsCorrect(blurringParameterString)) {
-            AddAlert.addErrorAlert("Export failed", "Check if the blur parameter is correct.");
-            return;
-        }
-
-        int blurringParameterValue = Integer.parseInt(blurringParameterString);
-
-        processFiles.filtering("gaussian", IMAGES_TXT_PATH, exportPath, blurringParameterValue);
-
-        List<String> listOfBlurredImages = processFiles.listOfFilteredImages(exportPath, "gaussian_");
-        ObservableList<String> blurredImagesObservableList = FXCollections.observableArrayList(listOfBlurredImages);
-
-        exportData.setText("List of filtered images in export folder: ");
-        exportedImagesList.setItems(blurredImagesObservableList);
 
         this.exportPath.clear();
         blurringParameter.clear();
 
-        AddAlert.addInfoAlert("Export succeed", "Filtered images are saved. If you want to change the level of blur, just do the filtering again.");
-
-        FileInputStream input = new FileInputStream(processFiles.returnFirstFilteredImage(exportPath, "gaussian_"));
-        Image image = new Image(input);
-        sampleImage.setImage(image);
+        try {
+            exportImages(exportPath, blurringParameterString, typeOfFiltering);
+            setUI(exportData, exportedImagesList, exportPath, typeOfFiltering);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
