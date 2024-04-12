@@ -20,7 +20,6 @@
 
         <VBox alignment="CENTER" spacing="20.0" prefWidth="400" xmlns:fx="http://javafx.com/fxml">
             <Label fx:id="filterInfo" VBox.vgrow="ALWAYS"/>
-            <TextField fx:id="blurringParameter" promptText="The value of the blur parameter" prefWidth="400"/>
         </VBox>
 
         <VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml">
