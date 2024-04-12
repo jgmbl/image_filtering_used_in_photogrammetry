@@ -1,6 +1,5 @@
 package pl.jgmbl.image_filtering;
 
-import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.Size;
@@ -16,7 +15,6 @@ import java.util.Set;
 public class ProcessImagesService {
     static {
         nu.pattern.OpenCV.loadLocally();
-        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
     }
 
     private final ManageTxtFiles manageTxtFiles = new ManageTxtFiles();
@@ -39,6 +37,21 @@ public class ProcessImagesService {
                 medianFiltering(src, destinationMatrix, kernelSize);
                 saveFilteredImage("median", imagePath, outputFolderPath, destinationMatrix);
             } else if (type.equals("sharpening")) {
+                sharpeningFilter(src, destinationMatrix);
+                saveFilteredImage("sharpening", imagePath, outputFolderPath, destinationMatrix);
+            }
+        }
+    }
+
+    public void filtering(String type, String txtFilePath, String outputFolderPath) throws IOException {
+        Set<String> setOfImagesPaths = manageTxtFiles.readTxtFile(txtFilePath);
+
+
+        for (String imagePath : setOfImagesPaths) {
+            Mat src = Imgcodecs.imread(imagePath);
+            Mat destinationMatrix = new Mat(src.rows(), src.cols(), src.type());
+
+            if (type.equals("sharpening")) {
                 sharpeningFilter(src, destinationMatrix);
                 saveFilteredImage("sharpening", imagePath, outputFolderPath, destinationMatrix);
             }
