@@ -38,6 +38,17 @@ public abstract class IndexFilterController implements FilterController {
         processImagesService.filtering(typeOfFiltering, IMAGES_TXT_PATH, exportPath, blurringParameterValue);
     }
 
+    protected void exportImages(String exportPath, String typeOfFiltering) throws IOException {
+        exportPath = InputValidationService.returnCorrectPath(exportPath);
+
+        if (!InputValidationService.checkIfExportPathIsCorrect(exportPath)) {
+            AddAlert.addErrorAlert("Export failed", "Check if the folder path is correct.");
+            return;
+        }
+
+        processImagesService.filtering(typeOfFiltering, IMAGES_TXT_PATH, exportPath);
+    }
+
     protected void setUI(Label exportData, ListView<String> exportedImagesList,
                          String exportPath, ImageView imageView, String typeOfFiltering) throws FileNotFoundException {
         List<String> listOfBlurredImages = processImagesService.listOfFilteredImages(exportPath, typeOfFiltering + "_");
