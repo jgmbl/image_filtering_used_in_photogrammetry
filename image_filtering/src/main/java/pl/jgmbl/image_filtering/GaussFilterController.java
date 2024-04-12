@@ -29,6 +29,10 @@ public class GaussFilterController extends IndexFilterController {
     private Label sampleImageInfo;
     @FXML
     private ImageView sampleImage;
+    @FXML
+    private Label originalImageInfo;
+    @FXML
+    private ImageView originalSampleImage;
 
 
     public void initialize() {
@@ -40,6 +44,7 @@ public class GaussFilterController extends IndexFilterController {
 
         exportInfo.setText("Enter the full path to the image saving folder: ");
         sampleImageInfo.setText("Sample image:");
+        originalImageInfo.setText("Original sample image: ");
     }
 
     @FXML
@@ -53,7 +58,7 @@ public class GaussFilterController extends IndexFilterController {
 
         try {
             exportImages(exportPath, blurringParameterString, typeOfFiltering);
-            setUI(exportData, exportedImagesList, exportPath, sampleImage, typeOfFiltering);
+            setUI(exportData, exportedImagesList, exportPath, sampleImage, originalSampleImage, typeOfFiltering);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

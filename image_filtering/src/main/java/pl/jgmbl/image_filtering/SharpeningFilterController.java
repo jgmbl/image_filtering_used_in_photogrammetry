@@ -8,7 +8,7 @@ import javafx.scene.image.ImageView;
 
 import java.io.IOException;
 
-public class SharpeningFilterController extends IndexFilterController{
+public class SharpeningFilterController extends IndexFilterController {
     private final String typeOfFiltering = "sharpening";
 
     @FXML
@@ -27,6 +27,10 @@ public class SharpeningFilterController extends IndexFilterController{
     private Label sampleImageInfo;
     @FXML
     private ImageView sampleImage;
+    @FXML
+    private Label originalImageInfo;
+    @FXML
+    private ImageView originalSampleImage;
 
     public void initialize() {
         filterInfo.setText("The Sharpening filter is used to sharpen the edges in a image while increasing the noise." +
@@ -36,8 +40,10 @@ public class SharpeningFilterController extends IndexFilterController{
         filterInfo.setWrapText(true);
 
         exportInfo.setText("Enter the full path to the image saving folder: ");
-        sampleImageInfo.setText("Sample image:");
+        sampleImageInfo.setText("Filtered sample image: ");
+        originalImageInfo.setText("Original sample image: ");
     }
+
     @Override
     public void onExportClick() {
         String exportPath = this.exportPath.getText();
@@ -46,7 +52,7 @@ public class SharpeningFilterController extends IndexFilterController{
 
         try {
             exportImages(exportPath, typeOfFiltering);
-            setUI(exportData, exportedImagesList, exportPath, sampleImage, typeOfFiltering);
+            setUI(exportData, exportedImagesList, exportPath, sampleImage, originalSampleImage, typeOfFiltering);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

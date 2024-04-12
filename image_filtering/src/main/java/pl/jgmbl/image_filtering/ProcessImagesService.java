@@ -113,7 +113,7 @@ public class ProcessImagesService {
         return listOfImages;
     }
 
-    public static String returnFirstFilteredImage(String folderPath, String prefix) {
+    public static String returnFirstImageInTheFolder(String folderPath, String prefix, boolean isFiltered) {
         String pathToFile = "";
         File directory = new File(folderPath);
         File[] files = directory.listFiles();
@@ -122,9 +122,16 @@ public class ProcessImagesService {
         if (files != null) {
             for (File file : files) {
                 String image = file.getName();
-                if (ManageTxtFiles.checkJpgJpegExtensions(image) && image.contains(prefix)) {
-                    pathToFile = absolutePath + '/' + image;
-                    break;
+                if (isFiltered) {
+                    if (ManageTxtFiles.checkJpgJpegExtensions(image) && image.contains(prefix)) {
+                        pathToFile = absolutePath + '/' + image;
+                        break;
+                    }
+                } else {
+                    if (ManageTxtFiles.checkJpgJpegExtensions(image) && !image.contains(prefix)) {
+                        pathToFile = absolutePath + '/' + image;
+                        break;
+                    }
                 }
             }
         }

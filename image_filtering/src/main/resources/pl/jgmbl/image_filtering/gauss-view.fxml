@@ -30,6 +30,9 @@
         <VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml">
             <Label fx:id="sampleImageInfo" VBox.vgrow="ALWAYS"/>
             <ImageView fx:id="sampleImage" fitWidth="600" fitHeight="400"/>
+
+            <Label fx:id="originalImageInfo" VBox.vgrow="ALWAYS"/>
+            <ImageView fx:id="originalSampleImage" fitWidth="600" fitHeight="400"/>
         </VBox>
     </HBox>
 
