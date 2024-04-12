@@ -9,9 +9,7 @@ import org.opencv.imgproc.Imgproc;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class ProcessImagesService {
     static {
@@ -65,7 +63,7 @@ public class ProcessImagesService {
         Imgproc.medianBlur(source, dst, kernelSize);
     }
 
-    public void sharpeningFilter (Mat source, Mat dst) {
+    public void sharpeningFilter(Mat source, Mat dst) {
         int[][] kernelArray = {
                 {0, -1, 0},
                 {-1, 4, -1},
@@ -94,6 +92,7 @@ public class ProcessImagesService {
         boolean imrite = Imgcodecs.imwrite(outputFolderPath + type + "_" + imageName, destinationMatrix);
     }
 
+
     public List<String> listOfFilteredImages(String folderPath, String prefix) {
         ArrayList<String> listOfImages = new ArrayList<>();
 
@@ -113,28 +112,29 @@ public class ProcessImagesService {
         return listOfImages;
     }
 
-    public static String returnFirstImageInTheFolder(String folderPath, String prefix, boolean isFiltered) {
-        String pathToFile = "";
-        File directory = new File(folderPath);
-        File[] files = directory.listFiles();
-        String absolutePath = directory.getAbsolutePath();
 
-        if (files != null) {
-            for (File file : files) {
-                String image = file.getName();
-                if (isFiltered) {
-                    if (ManageTxtFiles.checkJpgJpegExtensions(image) && image.contains(prefix)) {
-                        pathToFile = absolutePath + '/' + image;
-                        break;
-                    }
-                } else {
-                    if (ManageTxtFiles.checkJpgJpegExtensions(image) && !image.contains(prefix)) {
-                        pathToFile = absolutePath + '/' + image;
-                        break;
-                    }
-                }
+    public HashMap<String, String> returnFilteredAndNotFilteredPathToImage(String importTxtFile, String exportFolderPath, String prefix) throws IOException {
+        List<String> filteredImagesList = listOfFilteredImages(exportFolderPath, prefix);
+        Set<String> unfilteredImagesList = manageTxtFiles.readTxtFile(importTxtFile);
+        HashMap<String, String> sampleImages = new HashMap<>();
+
+        String sampleUnfilteredPhoto = "";
+
+        Iterator<String> iterator = unfilteredImagesList.iterator();
+        if (iterator.hasNext()) {
+            sampleUnfilteredPhoto = iterator.next();
+            sampleImages.put("unfiltered", sampleUnfilteredPhoto);
+        }
+
+        String nameOfFile = sampleUnfilteredPhoto.substring(sampleUnfilteredPhoto.lastIndexOf("/") + 1);
+        nameOfFile = prefix + "_" + nameOfFile;
+
+        for (String imagePath : filteredImagesList) {
+            if (imagePath.contains(nameOfFile)) {
+                sampleImages.put("filtered", exportFolderPath + imagePath);
             }
         }
-        return pathToFile;
+
+        return sampleImages;
     }
 }

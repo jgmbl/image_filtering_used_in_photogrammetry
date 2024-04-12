@@ -50,7 +50,10 @@ public abstract class IndexFilterController implements FilterController {
     }
 
     protected void setUI(Label exportData, ListView<String> exportedImagesList,
-                         String exportPath, ImageView filteredImageView, ImageView originalImageView, String typeOfFiltering) throws FileNotFoundException {
+                         String exportPath, ImageView filteredImageView, ImageView originalImageView, String typeOfFiltering) throws IOException {
+
+        exportPath = InputValidationService.returnCorrectPath(exportPath);
+
         List<String> listOfBlurredImages = processImagesService.listOfFilteredImages(exportPath, typeOfFiltering + "_");
         ObservableList<String> blurredImagesObservableList = FXCollections.observableArrayList(listOfBlurredImages);
 
@@ -59,11 +62,11 @@ public abstract class IndexFilterController implements FilterController {
 
         AddAlert.addInfoAlert("Export succeed", "Filtered images are saved. If you want to change the level of blur, just do the filtering again.");
 
-        FileInputStream inputFiltered = new FileInputStream(ProcessImagesService.returnFirstImageInTheFolder(exportPath, typeOfFiltering, true));
+        FileInputStream inputFiltered = new FileInputStream(processImagesService.returnFilteredAndNotFilteredPathToImage(IMAGES_TXT_PATH, exportPath, typeOfFiltering).get("filtered"));
         Image imageFiltered = new Image(inputFiltered);
         filteredImageView.setImage(imageFiltered);
 
-        FileInputStream inputNotFiltered = new FileInputStream(ProcessImagesService.returnFirstImageInTheFolder(exportPath, typeOfFiltering, false));
+        FileInputStream inputNotFiltered = new FileInputStream(processImagesService.returnFilteredAndNotFilteredPathToImage(IMAGES_TXT_PATH, exportPath, typeOfFiltering).get("unfiltered"));
         Image imageNotFiltered = new Image(inputNotFiltered);
         originalImageView.setImage(imageNotFiltered);
     }
