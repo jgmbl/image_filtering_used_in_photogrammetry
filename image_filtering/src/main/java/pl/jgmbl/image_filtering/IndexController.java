@@ -55,7 +55,7 @@ public class IndexController {
 
     @FXML
     protected void onUnsharpMaskingButtonClick() {
-        unsharpMasking.setText("Filtering images...");
+        filterButton("sharpening-view.fxml", "Sharpening Filter");
     }
 
 
