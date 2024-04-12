@@ -73,12 +73,14 @@ public class ProcessImagesService {
         };
 
         Mat kernel = new Mat(3, 3, CvType.CV_32F);
+        final float amountOfSharpening = 0.5F;
 
         for (int i = 0; i < kernelArray.length; i++) {
             for (int j = 0; j < kernelArray[i].length; j++) {
-                kernel.put(i, j, kernelArray[i][j]);
+                kernel.put(i, j, kernelArray[i][j] * amountOfSharpening);
             }
         }
+
 
         Mat filteredImage = new Mat();
         Imgproc.filter2D(source, filteredImage, -1, kernel);
