@@ -51,7 +51,6 @@ public class ProcessImagesService {
         boolean imrite = Imgcodecs.imwrite(outputFolderPath + type + "_" + imageName, destinationMatrix);
     }
 
-    
     public List<String> listOfFilteredImages(String folderPath, String prefix) {
         ArrayList<String> listOfImages = new ArrayList<>();
 
@@ -71,7 +70,7 @@ public class ProcessImagesService {
         return listOfImages;
     }
 
-    public String returnFirstFilteredImage(String folderPath, String prefix) {
+    public static String returnFirstFilteredImage(String folderPath, String prefix) {
         String pathToFile = "";
         File directory = new File(folderPath);
         File[] files = directory.listFiles();

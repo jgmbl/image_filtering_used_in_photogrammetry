@@ -1,17 +1,12 @@
 package pl.jgmbl.image_filtering;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
-import javax.swing.text.html.ImageView;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.List;
 
 public class GaussFilterController extends IndexFilterController{
     public final String typeOfFiltering = "gaussian";
@@ -32,8 +27,8 @@ public class GaussFilterController extends IndexFilterController{
 
     @FXML
     private Label sampleImageInfo;
-//    @FXML
-//    private ImageView sampleImage;
+    @FXML
+    private ImageView sampleImage;
 
 //    private final ProcessImagesService processImagesService = new ProcessImagesService();
 
@@ -60,7 +55,7 @@ public class GaussFilterController extends IndexFilterController{
 
         try {
             exportImages(exportPath, blurringParameterString, typeOfFiltering);
-            setUI(exportData, exportedImagesList, exportPath, typeOfFiltering);
+            setUI(exportData, exportedImagesList, exportPath, sampleImage, typeOfFiltering);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

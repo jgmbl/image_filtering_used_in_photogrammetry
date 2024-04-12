@@ -6,8 +6,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
-import javax.swing.text.html.ImageView;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -39,7 +39,7 @@ public abstract class IndexFilterController implements FilterController {
     }
 
     protected void setUI(Label exportData, ListView<String> exportedImagesList,
-                         String exportPath, String typeOfFiltering) throws FileNotFoundException {
+                         String exportPath, ImageView imageView, String typeOfFiltering) throws FileNotFoundException {
         List<String> listOfBlurredImages = processImagesService.listOfFilteredImages(exportPath, typeOfFiltering + "_");
         ObservableList<String> blurredImagesObservableList = FXCollections.observableArrayList(listOfBlurredImages);
 
@@ -48,8 +48,8 @@ public abstract class IndexFilterController implements FilterController {
 
         AddAlert.addInfoAlert("Export succeed", "Filtered images are saved. If you want to change the level of blur, just do the filtering again.");
 
-//        FileInputStream input = new FileInputStream(ProcessImagesService.returnFirstFilteredImage(exportPath, typeOfFiltering));
-//        Image image = new Image(input);
-//        sampleImage.setImage(image);
+        FileInputStream input = new FileInputStream(ProcessImagesService.returnFirstFilteredImage(exportPath, typeOfFiltering));
+        Image image = new Image(input);
+        imageView.setImage(image);
     }
 }
