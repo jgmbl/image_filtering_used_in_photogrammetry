@@ -29,7 +29,7 @@ public class MedianFilterController extends IndexFilterController {
     private Label sampleImageInfo;
     @FXML
     private ImageView sampleImage;
-    
+
 
     public void initialize() {
         filterInfo.setText("Median filtering is used to reduce noise while smoothing and preserving edge sharpness." +
