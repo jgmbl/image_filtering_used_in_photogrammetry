@@ -18,7 +18,9 @@ public class ProcessImagesService {
 
     private final ManageTxtFiles manageTxtFiles = new ManageTxtFiles();
 
-    /** Absolute paths to images are stored in txt file */
+    /**
+     * Absolute paths to images are stored in txt file
+     */
     public void filtering(String type, String txtFilePath, String outputFolderPath, Integer kernelSize) throws IOException {
         Set<String> setOfImagesPaths = manageTxtFiles.readTxtFile(txtFilePath);
 
@@ -46,7 +48,7 @@ public class ProcessImagesService {
         Imgproc.medianBlur(source, dst, kernelSize);
     }
 
-    private void saveFilteredImage (String type, String imagePath, String outputFolderPath, Mat destinationMatrix) {
+    private void saveFilteredImage(String type, String imagePath, String outputFolderPath, Mat destinationMatrix) {
         String imageName = imagePath.substring(imagePath.lastIndexOf('/') + 1);
         boolean imrite = Imgcodecs.imwrite(outputFolderPath + type + "_" + imageName, destinationMatrix);
     }
@@ -56,7 +58,7 @@ public class ProcessImagesService {
 
         File file = new File(folderPath);
         File[] files = file.listFiles();
-        
+
         if (files != null) {
             for (File file1 : files) {
                 if (file1.isFile()) {
@@ -66,7 +68,7 @@ public class ProcessImagesService {
                 }
             }
         }
-        
+
         return listOfImages;
     }
 

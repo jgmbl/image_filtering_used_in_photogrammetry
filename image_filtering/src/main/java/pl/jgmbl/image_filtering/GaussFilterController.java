@@ -8,7 +8,7 @@ import javafx.scene.image.ImageView;
 
 import java.io.IOException;
 
-public class GaussFilterController extends IndexFilterController{
+public class GaussFilterController extends IndexFilterController {
     public final String typeOfFiltering = "gaussian";
 
     @FXML
@@ -29,8 +29,6 @@ public class GaussFilterController extends IndexFilterController{
     private Label sampleImageInfo;
     @FXML
     private ImageView sampleImage;
-
-//    private final ProcessImagesService processImagesService = new ProcessImagesService();
 
 
     public void initialize() {
