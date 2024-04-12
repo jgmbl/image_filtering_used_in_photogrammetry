@@ -1,5 +1,7 @@
 package pl.jgmbl.image_filtering;
 
+import org.opencv.core.Core;
+import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.Size;
 import org.opencv.imgcodecs.Imgcodecs;
@@ -14,6 +16,7 @@ import java.util.Set;
 public class ProcessImagesService {
     static {
         nu.pattern.OpenCV.loadLocally();
+        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
     }
 
     private final ManageTxtFiles manageTxtFiles = new ManageTxtFiles();
@@ -35,6 +38,9 @@ public class ProcessImagesService {
             } else if (type.equals("median")) {
                 medianFiltering(src, destinationMatrix, kernelSize);
                 saveFilteredImage("median", imagePath, outputFolderPath, destinationMatrix);
+            } else if (type.equals("sharpening")) {
+                sharpeningFilter(src, destinationMatrix);
+                saveFilteredImage("sharpening", imagePath, outputFolderPath, destinationMatrix);
             }
         }
     }
@@ -47,6 +53,18 @@ public class ProcessImagesService {
     private void medianFiltering(Mat source, Mat dst, int kernelSize) {
         Imgproc.medianBlur(source, dst, kernelSize);
     }
+
+    public void sharpeningFilter (Mat source, Mat dst) {
+        Mat kernel = Mat.zeros(3, 3, CvType.CV_32F);
+        kernel.put(0, 1, -1);
+        kernel.put(1, 0, -1);
+        kernel.put(1, 1, 3);
+        kernel.put(1, 2, -1);
+        kernel.put(2, 1, -1);
+
+        Imgproc.filter2D(source, dst, 1, kernel);
+    }
+
 
     private void saveFilteredImage(String type, String imagePath, String outputFolderPath, Mat destinationMatrix) {
         String imageName = imagePath.substring(imagePath.lastIndexOf('/') + 1);
