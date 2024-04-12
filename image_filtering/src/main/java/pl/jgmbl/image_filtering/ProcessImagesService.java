@@ -1,5 +1,6 @@
 package pl.jgmbl.image_filtering;
 
+import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.Size;
@@ -36,9 +37,6 @@ public class ProcessImagesService {
             } else if (type.equals("median")) {
                 medianFiltering(src, destinationMatrix, kernelSize);
                 saveFilteredImage("median", imagePath, outputFolderPath, destinationMatrix);
-            } else if (type.equals("sharpening")) {
-                sharpeningFilter(src, destinationMatrix);
-                saveFilteredImage("sharpening", imagePath, outputFolderPath, destinationMatrix);
             }
         }
     }
@@ -68,14 +66,24 @@ public class ProcessImagesService {
     }
 
     public void sharpeningFilter (Mat source, Mat dst) {
-        Mat kernel = Mat.zeros(3, 3, CvType.CV_32F);
-        kernel.put(0, 1, -1);
-        kernel.put(1, 0, -1);
-        kernel.put(1, 1, 3);
-        kernel.put(1, 2, -1);
-        kernel.put(2, 1, -1);
+        int[][] kernelArray = {
+                {0, -1, 0},
+                {-1, 4, -1},
+                {0, -1, 0}
+        };
 
-        Imgproc.filter2D(source, dst, 1, kernel);
+        Mat kernel = new Mat(3, 3, CvType.CV_32F);
+
+        for (int i = 0; i < kernelArray.length; i++) {
+            for (int j = 0; j < kernelArray[i].length; j++) {
+                kernel.put(i, j, kernelArray[i][j]);
+            }
+        }
+
+        Mat filteredImage = new Mat();
+        Imgproc.filter2D(source, filteredImage, -1, kernel);
+
+        Core.addWeighted(source, 1.0, filteredImage, 1.0, 0.0, dst);
     }
 
 
