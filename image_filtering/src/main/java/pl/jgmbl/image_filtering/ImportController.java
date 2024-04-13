@@ -49,14 +49,7 @@ public class ImportController {
 
     @FXML
     protected void onRefreshClick() throws IOException {
-        Set<String> listOfImagesFromTxtFile = manageTxtFiles.readTxtFile(PATH);
-        ObservableList<String> listOfImagesFromFile = FXCollections.observableArrayList(listOfImagesFromTxtFile);
-
-        if (ManageTxtFiles.checkIfPathExists(PATH)) {
-            this.listOfImages.setItems(listOfImagesFromFile);
-        } else {
-            this.listOfImages.setItems(null);
-        }
+        importService.refreshListView(PATH, listOfImages);
 
     }
 
