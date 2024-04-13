@@ -1,7 +1,5 @@
 package pl.jgmbl.image_filtering;
 
-import org.opencv.core.Core;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -19,6 +17,8 @@ public class ImageFilteringApplication extends Application {
         stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
+
+        deleteTxtFile("src/main/resources/images.txt");
     }
 
     @Override
