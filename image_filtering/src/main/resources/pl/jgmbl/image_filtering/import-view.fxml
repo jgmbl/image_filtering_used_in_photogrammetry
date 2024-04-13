@@ -22,11 +22,12 @@
         <VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml">
             <TextField fx:id="importPath" promptText="Folder path" prefWidth="400"/>
             <Button text="Import" onAction="#onImportClick"/>
-            <Label fx:id="importData"/>
+            <Label fx:id="importData" VBox.vgrow="ALWAYS"/>
             <ListView fx:id="importedImagesList"/>
         </VBox>
 
         <VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml">
+            <Label fx:id="deletionInfo" VBox.vgrow="ALWAYS"/>
             <TextField fx:id="deletePath" promptText="Folder path" onAction="#onImportClick" prefWidth="400"/>
             <Button text="Delete" onAction="#onDeleteClick"/>
             <Label fx:id="deleteData"/>

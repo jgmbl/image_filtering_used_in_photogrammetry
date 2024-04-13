@@ -31,14 +31,20 @@ public class ImportController {
     private TextField deletePath;
     @FXML
     private Label deleteData;
+    @FXML
+    private Label deletionInfo;
 
     private final ImportService importService = new ImportService();
 
     private final ManageTxtFiles manageTxtFiles = new ManageTxtFiles();
 
     public void initialize() {
-        importInfo.setText("Enter the absolute path to the folder to import or delete JPG/JPEG images.");
+        importInfo.setText("Enter the absolute path to the folder to import JPG/JPEG images: ");
         importedPhotosInfo.setText("List of imported images:");
+        importData.setText("List of currently imported images:");
+        deletionInfo.setText("Enter the absolute path to the folder from which the images are to be deleted" +
+                " or select them in the list of imported images: ");
+        deletionInfo.setWrapText(true);
     }
 
     @FXML
@@ -71,7 +77,6 @@ public class ImportController {
                     importedImagesList.setItems(importedImagesListData);
                     importPath.clear();
 
-                    importData.setText("List of currently imported JPG/JPEG images:");
                     AddAlert.addInfoAlert("Import succeed", "Import more images or choose filtering option from main menu.");
                 } else {
                     AddAlert.addErrorAlert("Import failed", "Folder has already been imported.");
