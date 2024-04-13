@@ -1,10 +1,10 @@
 package pl.jgmbl.image_filtering;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
@@ -22,7 +22,7 @@ public class ImportController {
     @FXML
     private Label importedPhotosInfo;
     @FXML
-    private  ListView<String> imagesList;
+    private ListView<String> imagesList;
     @FXML
     private TextField deletePath;
     @FXML
@@ -40,6 +40,7 @@ public class ImportController {
         deletionInfo.setText("Enter the absolute path to the folder from which the images are to be deleted" +
                 " or select them in the list of imported images: ");
         deletionInfo.setWrapText(true);
+        imagesList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         importService.refreshListView(PATH, imagesList);
     }
@@ -55,8 +56,8 @@ public class ImportController {
             if (ManageTxtFiles.checkIfPathExists(importDirectory)) {
                 if (!importService.isFolderImported(PATH, listOfJPGFiles)) {
                     manageTxtFiles.writeListToTxtFile(listOfJPGFiles, "src/main/resources/images.txt", true);
-                    
-                    initialize();
+
+                    importService.refreshListView(PATH, imagesList);
                     importPath.clear();
 
                     AddAlert.addInfoAlert("Import succeed", "Import more images or choose filtering option from main menu.");
@@ -74,19 +75,34 @@ public class ImportController {
     public void onDeleteClick() throws IOException {
         String deleteDirectory = deletePath.getText();
 
-        if (ManageTxtFiles.checkIfPathExists(deleteDirectory)) {
+        if (!deleteDirectory.isEmpty()) {
+            if (ManageTxtFiles.checkIfPathExists(deleteDirectory)) {
 
-            Set<String> deletedImagesFile = manageTxtFiles.deletedImagesByFolderPath(deleteDirectory, PATH);
-            manageTxtFiles.writeListToTxtFile(deletedImagesFile, PATH, false);
-            deletePath.clear();
+                Set<String> deletedImagesFile = manageTxtFiles.deletedImagesByFolderPath(deleteDirectory, PATH);
+                manageTxtFiles.writeListToTxtFile(deletedImagesFile, PATH, false);
+                deletePath.clear();
 
-            initialize();
+                importService.refreshListView(PATH, imagesList);
 
-            deleteData.setText("Deleted imported image(s).");
+                deleteData.setText("Deleted imported image(s).");
 
-            AddAlert.addInfoAlert("Deletion succeed", "Images are deleted.");
+                AddAlert.addInfoAlert("Deletion succeed", "Images are deleted.");
+            } else {
+                AddAlert.addErrorAlert("Deletion failed", "Check if the path is correct.");
+            }
         } else {
-            AddAlert.addErrorAlert("Deletion failed", "Check if the path is correct.");
+            int selectedIndex = imagesList.getSelectionModel().getSelectedIndex();
+
+            if (selectedIndex != -1) {
+                ObservableList<String> selectedImages = imagesList.getSelectionModel().getSelectedItems();
+                manageTxtFiles.deleteImagesByImagesPaths(selectedImages, PATH);
+
+                importService.refreshListView(PATH, imagesList);
+
+                AddAlert.addInfoAlert("Deletion succeed", "Images are deleted.");
+            } else {
+                AddAlert.addErrorAlert("Deletion failed", "Select images from the list.");
+            }
         }
 
     }
