@@ -14,19 +14,18 @@
 
         <VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml">
             <Label fx:id="importInfo" VBox.vgrow="ALWAYS"/>
-            <Button text="Refresh" onAction="#onRefreshClick"/>
-            <Label fx:id="importedPhotosInfo" VBox.vgrow="ALWAYS"/>
-            <ListView fx:id="listOfImages"/>
-        </VBox>
-
-        <VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml">
             <TextField fx:id="importPath" promptText="Folder path" prefWidth="400"/>
             <Button text="Import" onAction="#onImportClick"/>
             <Label fx:id="importData" VBox.vgrow="ALWAYS"/>
             <ListView fx:id="importedImagesList"/>
         </VBox>
 
-        <VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml">
+        <VBox alignment="CENTER" spacing="20.0" minWidth="400" xmlns:fx="http://javafx.com/fxml">
+            <Label fx:id="importedPhotosInfo" VBox.vgrow="ALWAYS"/>
+            <ListView fx:id="imagesList"/>
+        </VBox>
+
+        <VBox alignment="CENTER" spacing="20.0" maxWidth="400" xmlns:fx="http://javafx.com/fxml">
             <Label fx:id="deletionInfo" VBox.vgrow="ALWAYS"/>
             <TextField fx:id="deletePath" promptText="Folder path" onAction="#onImportClick" prefWidth="400"/>
             <Button text="Delete" onAction="#onDeleteClick"/>

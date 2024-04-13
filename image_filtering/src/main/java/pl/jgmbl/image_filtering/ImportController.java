@@ -13,13 +13,9 @@ import java.util.Set;
 public class ImportController {
 
     private final String PATH = "src/main/resources/images.txt";
+
     @FXML
     private Label importInfo;
-    @FXML
-    private Label importedPhotosInfo;
-    @FXML
-    private ListView<String> listOfImages;
-
     @FXML
     private TextField importPath;
     @FXML
@@ -27,6 +23,10 @@ public class ImportController {
     @FXML
     private Label importData;
 
+    @FXML
+    private Label importedPhotosInfo;
+    @FXML
+    private  ListView<String> imagesList;
     @FXML
     private TextField deletePath;
     @FXML
@@ -38,20 +38,17 @@ public class ImportController {
 
     private final ManageTxtFiles manageTxtFiles = new ManageTxtFiles();
 
-    public void initialize() {
+    public void initialize() throws IOException {
         importInfo.setText("Enter the absolute path to the folder to import JPG/JPEG images: ");
         importedPhotosInfo.setText("List of imported images:");
         importData.setText("List of currently imported images:");
         deletionInfo.setText("Enter the absolute path to the folder from which the images are to be deleted" +
                 " or select them in the list of imported images: ");
         deletionInfo.setWrapText(true);
+
+        importService.refreshListView(PATH, imagesList);
     }
 
-    @FXML
-    protected void onRefreshClick() throws IOException {
-        importService.refreshListView(PATH, listOfImages);
-
-    }
 
     @FXML
     protected void onImportClick() {
@@ -68,6 +65,7 @@ public class ImportController {
                     ObservableList<String> importedImagesListData = FXCollections.observableArrayList(listOfImagesFromFile);
 
                     importedImagesList.setItems(importedImagesListData);
+                    initialize();
                     importPath.clear();
 
                     AddAlert.addInfoAlert("Import succeed", "Import more images or choose filtering option from main menu.");
@@ -91,7 +89,9 @@ public class ImportController {
             manageTxtFiles.writeListToTxtFile(deletedImagesFile, PATH, false);
             deletePath.clear();
 
-            deleteData.setText("Deleted imported images.");
+            initialize();
+
+            deleteData.setText("Deleted imported image(s).");
 
             AddAlert.addInfoAlert("Deletion succeed", "Images are deleted.");
         } else {

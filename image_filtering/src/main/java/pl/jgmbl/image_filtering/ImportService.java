@@ -61,6 +61,7 @@ public class ImportService {
         }
     }
 
+
     public boolean isFolderImported(String filePath, Set<String> importedImages) throws IOException {
         Set<String> txtFile = manageTxtFiles.readTxtFile(filePath);
 
