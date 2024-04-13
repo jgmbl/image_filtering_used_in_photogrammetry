@@ -1,5 +1,7 @@
 package pl.jgmbl.image_filtering;
 
+import javafx.collections.ObservableList;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -9,6 +11,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 public class ManageTxtFiles {
@@ -86,6 +89,16 @@ public class ManageTxtFiles {
         }
 
         return imagesFromTxtFile;
+    }
+
+    public void deleteImagesByImagesPaths (ObservableList<String> imagesToDeletePaths, String txtFilePath) throws IOException {
+        Set<String> imagesTxtSet = readTxtFile(txtFilePath);
+
+        Set<String> imagesPathsSet = new HashSet<>(imagesToDeletePaths);
+
+        imagesTxtSet.removeAll(imagesPathsSet);
+
+        writeListToTxtFile(imagesTxtSet, txtFilePath, false);
     }
 
 
