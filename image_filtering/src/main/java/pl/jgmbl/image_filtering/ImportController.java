@@ -18,10 +18,6 @@ public class ImportController {
     private Label importInfo;
     @FXML
     private TextField importPath;
-    @FXML
-    private ListView<String> importedImagesList;
-    @FXML
-    private Label importData;
 
     @FXML
     private Label importedPhotosInfo;
@@ -41,7 +37,6 @@ public class ImportController {
     public void initialize() throws IOException {
         importInfo.setText("Enter the absolute path to the folder to import JPG/JPEG images: ");
         importedPhotosInfo.setText("List of imported images:");
-        importData.setText("List of currently imported images:");
         deletionInfo.setText("Enter the absolute path to the folder from which the images are to be deleted" +
                 " or select them in the list of imported images: ");
         deletionInfo.setWrapText(true);
@@ -60,11 +55,7 @@ public class ImportController {
             if (ManageTxtFiles.checkIfPathExists(importDirectory)) {
                 if (!importService.isFolderImported(PATH, listOfJPGFiles)) {
                     manageTxtFiles.writeListToTxtFile(listOfJPGFiles, "src/main/resources/images.txt", true);
-
-                    Set<String> listOfImagesFromFile = manageTxtFiles.readTxtFile("src/main/resources/images.txt");
-                    ObservableList<String> importedImagesListData = FXCollections.observableArrayList(listOfImagesFromFile);
-
-                    importedImagesList.setItems(importedImagesListData);
+                    
                     initialize();
                     importPath.clear();
 

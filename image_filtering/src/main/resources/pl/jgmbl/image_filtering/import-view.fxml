@@ -16,8 +16,6 @@
             <Label fx:id="importInfo" VBox.vgrow="ALWAYS"/>
             <TextField fx:id="importPath" promptText="Folder path" prefWidth="400"/>
             <Button text="Import" onAction="#onImportClick"/>
-            <Label fx:id="importData" VBox.vgrow="ALWAYS"/>
-            <ListView fx:id="importedImagesList"/>
         </VBox>
 
         <VBox alignment="CENTER" spacing="20.0" minWidth="400" xmlns:fx="http://javafx.com/fxml">
