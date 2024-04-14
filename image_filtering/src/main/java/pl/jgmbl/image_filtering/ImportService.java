@@ -48,19 +48,14 @@ public class ImportService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        ObservableList<String> listOfImagesFromFile = FXCollections.observableArrayList(importedImagesSet);
 
-        return listOfImagesFromFile;
+        return FXCollections.observableArrayList(importedImagesSet);
     }
 
 
     public boolean isFolderImported(String filePath, Set<String> importedImages) throws IOException {
         Set<String> txtFile = manageTxtFiles.readTxtFile(filePath);
 
-        if (txtFile.containsAll(importedImages)) {
-            return true;
-        } else {
-            return false;
-        }
+        return txtFile.containsAll(importedImages) || importedImages.equals(txtFile);
     }
 }

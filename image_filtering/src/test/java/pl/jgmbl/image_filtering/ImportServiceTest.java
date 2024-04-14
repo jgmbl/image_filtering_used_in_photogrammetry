@@ -16,7 +16,6 @@ import java.nio.file.StandardOpenOption;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 class ImportServiceTest {
     String TXT_IMAGE_TEST_PATH = "src/test/resources/test_images.txt";
@@ -51,17 +50,11 @@ class ImportServiceTest {
     @Test
     void listOfJPGFilesFromFolder() throws IOException {
         Set<String> listOfJPGImagesFolder = importService.listOfJPGFilesFromFolder("src/test/resources/");
-        Set<Object> listOfJPGImagesFile = new HashSet<>();
-        System.out.println(listOfJPGImagesFile);
 
         Path path = Paths.get(TXT_IMAGE_TEST_PATH);
         List<String> lines = Files.readAllLines(path);
-
-        for (String line : lines) {
-            if (!line.isEmpty() && line.toLowerCase().endsWith(".jpg") || line.toLowerCase().endsWith(".jpeg")) {
-                listOfJPGImagesFile.add(line);
-            }
-        }
+        HashSet<String> setOfLines = new HashSet<>(lines);
+        Set<String> listOfJPGImagesFile = returnSetOfJpgImages(setOfLines);
 
         Assertions.assertEquals(listOfJPGImagesFolder, listOfJPGImagesFile);
     }
@@ -70,13 +63,7 @@ class ImportServiceTest {
     void refreshedObservableListFromTxtFile() {
         ObservableList<String> observableListJpgTest = importService.refreshedObservableListFromTxtFile(TXT_IMAGE_TEST_PATH);
         Set<String> allImages = setOfImagesAllPaths();
-        Set<String> allJpgImages = new HashSet<>();
-
-        for (String image : allImages) {
-            if (!image.isEmpty() && image.toLowerCase().endsWith(".jpg") || image.toLowerCase().endsWith(".jpeg")) {
-                allJpgImages.add(image);
-            }
-        }
+        Set<String> allJpgImages = returnSetOfJpgImages(allImages);
 
         ObservableList<String> allImagesObservable = FXCollections.observableArrayList(allJpgImages);
 
@@ -87,13 +74,7 @@ class ImportServiceTest {
     @Test
     void isFolderImported() throws IOException {
         Set<String> allImagesInDirectory = setOfImagesAllPaths();
-        Set<String> allJpgImagesInDirectory = new HashSet<>();
-
-        for (String image : allImagesInDirectory) {
-            if (!image.isEmpty() && image.toLowerCase().endsWith(".jpg") || image.toLowerCase().endsWith(".jpeg")) {
-                allJpgImagesInDirectory.add(image);
-            }
-        }
+        Set<String> allJpgImagesInDirectory = returnSetOfJpgImages(allImagesInDirectory);
 
         Set<String> differentSet = new HashSet<>();
         differentSet.add("Hello");
@@ -113,5 +94,17 @@ class ImportServiceTest {
         setOfImages.add("src/test/resources/4.1.07.jpg");
 
         return setOfImages;
+    }
+
+    private static Set<String> returnSetOfJpgImages(Set<String> setOfAllImages) {
+        HashSet<String> setOfJpgImages = new HashSet<>();
+
+        for (String image : setOfAllImages) {
+            if (!image.isEmpty() && image.toLowerCase().endsWith(".jpg") || image.toLowerCase().endsWith(".jpeg")) {
+                setOfJpgImages.add(image);
+            }
+        }
+
+        return setOfJpgImages;
     }
 }
