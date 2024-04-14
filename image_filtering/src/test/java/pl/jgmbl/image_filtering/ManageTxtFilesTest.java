@@ -65,7 +65,7 @@ class ManageTxtFilesTest {
     void readTxtFile() throws IOException {
         Set<String> allImagesSet = setOfImagesAllPaths();
         Set<String> jpgImagesSet = returnSetOfJpgImages(allImagesSet);
-        
+
         Set<String> importedData = manageTxtFiles.readTxtFile(TXT_IMAGE_TEST_PATH);
 
         Assertions.assertEquals(jpgImagesSet, importedData);
@@ -73,6 +73,14 @@ class ManageTxtFilesTest {
 
     @Test
     void createTxtFileIfItDoesNotExist() {
+        File file = new File(TXT_IMAGE_TEST_PATH);
+        file.delete();
+
+        manageTxtFiles.createTxtFileIfItDoesNotExist(Paths.get(TXT_IMAGE_TEST_PATH));
+
+        boolean doesFileExists = Files.exists(Paths.get(TXT_IMAGE_TEST_PATH));
+
+        Assertions.assertTrue(doesFileExists);
     }
 
     @Test
