@@ -11,7 +11,6 @@ import java.nio.file.StandardOpenOption;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 
 public class ManageTxtFiles {
@@ -91,7 +90,7 @@ public class ManageTxtFiles {
         return imagesFromTxtFile;
     }
 
-    public void deleteImagesByImagesPaths (ObservableList<String> imagesToDeletePaths, String txtFilePath) throws IOException {
+    public void deleteImagesByImagesPaths(ObservableList<String> imagesToDeletePaths, String txtFilePath) throws IOException {
         Set<String> imagesTxtSet = readTxtFile(txtFilePath);
 
         Set<String> imagesPathsSet = new HashSet<>(imagesToDeletePaths);
