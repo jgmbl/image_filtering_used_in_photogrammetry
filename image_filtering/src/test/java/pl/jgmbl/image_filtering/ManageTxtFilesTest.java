@@ -12,6 +12,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -113,6 +114,16 @@ class ManageTxtFilesTest {
 
     @Test
     void checkJpgJpegExtensions() {
+        Set<String> onlyJpgImages = returnSetOfJpgImages(setOfImagesAllPaths());
+        Iterator<String> iterator = onlyJpgImages.iterator();
+        String jpgImage = iterator.next();
+
+        Set<String> onlyTiffImages = setOfImagesAllPaths3();
+        Iterator<String> iterator1 = onlyTiffImages.iterator();
+        String tiffImage = iterator1.next();
+        
+        Assertions.assertTrue(ManageTxtFiles.checkJpgJpegExtensions(jpgImage));
+        Assertions.assertFalse(ManageTxtFiles.checkJpgJpegExtensions(tiffImage));
     }
 
     private static Set<String> setOfImagesAllPaths() {
@@ -141,6 +152,16 @@ class ManageTxtFilesTest {
         setOfImages.add(folderPath + "hallo.jpg");
         setOfImages.add(folderPath + "hej.tiff");
         setOfImages.add(folderPath + "hi.jpg");
+
+        return setOfImages;
+    }
+
+    private static Set<String> setOfImagesAllPaths3() {
+        HashSet<String> setOfImages = new HashSet<>();
+        setOfImages.add("src/test/resources/hello.tiff");
+        setOfImages.add("src/test/resources/gutenmorgen.tiff");
+        setOfImages.add("src/test/resources/halo.tiff");
+        setOfImages.add("src/test/resources/czesc.tiff");
 
         return setOfImages;
     }
