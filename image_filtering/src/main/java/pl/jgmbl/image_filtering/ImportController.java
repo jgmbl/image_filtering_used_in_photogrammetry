@@ -82,7 +82,7 @@ public class ImportController {
         if (!deleteDirectory.isEmpty()) {
             if (ManageTxtFiles.checkIfPathExists(deleteDirectory)) {
 
-                Set<String> deletedImagesFile = manageTxtFiles.deletedImagesByFolderPath(deleteDirectory, PATH);
+                Set<String> deletedImagesFile = manageTxtFiles.deleteImagesByFolderPath(deleteDirectory, PATH);
                 manageTxtFiles.writeListToTxtFile(deletedImagesFile, PATH, false);
                 deletePath.clear();
 

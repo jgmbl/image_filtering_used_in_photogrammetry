@@ -36,7 +36,7 @@ public class ManageTxtFiles {
         List<String> lines = Files.readAllLines(path);
 
         for (String line : lines) {
-            if (!line.isEmpty()) {
+            if (!line.isEmpty() && checkJpgJpegExtensions(line)) {
                 listOfFiles.add(line);
             }
         }
@@ -61,8 +61,10 @@ public class ManageTxtFiles {
         return Files.exists(path1);
     }
 
-
-    public Set<String> deletedImagesByFolderPath(String deletePath, String txtFilePath) throws IOException {
+    /**
+     * Returns a set of undeleted images
+     */
+    public Set<String> deleteImagesByFolderPath(String deletePath, String txtFilePath) throws IOException {
         Set<String> imagesFromTxtFile = readTxtFile(txtFilePath);
 
         File file = new File(deletePath);

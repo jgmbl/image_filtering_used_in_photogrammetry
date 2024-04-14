@@ -109,10 +109,6 @@ class ManageTxtFilesTest {
     }
 
     @Test
-    void deleteImagesByImagesPaths() {
-    }
-
-    @Test
     void checkJpgJpegExtensions() {
         Set<String> onlyJpgImages = returnSetOfJpgImages(setOfImagesAllPaths());
         Iterator<String> iterator = onlyJpgImages.iterator();
@@ -121,7 +117,7 @@ class ManageTxtFilesTest {
         Set<String> onlyTiffImages = setOfImagesAllPaths3();
         Iterator<String> iterator1 = onlyTiffImages.iterator();
         String tiffImage = iterator1.next();
-        
+
         Assertions.assertTrue(ManageTxtFiles.checkJpgJpegExtensions(jpgImage));
         Assertions.assertFalse(ManageTxtFiles.checkJpgJpegExtensions(tiffImage));
     }
