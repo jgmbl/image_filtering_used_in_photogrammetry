@@ -1,4 +1,0 @@
-src/test/resources/5.1.13.jpg
-src/test/resources/1.1.12.tiff
-src/test/resources/4.1.05.jpg
-src/test/resources/4.2.05.tiff
