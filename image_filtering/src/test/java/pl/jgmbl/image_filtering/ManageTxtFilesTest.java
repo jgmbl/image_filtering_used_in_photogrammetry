@@ -87,13 +87,24 @@ class ManageTxtFilesTest {
     void checkIfPathExists() {
         boolean fileExists = ManageTxtFiles.checkIfPathExists(TXT_IMAGE_TEST_PATH);
         boolean fileNotExists = ManageTxtFiles.checkIfPathExists(TXT_IMAGE_TEST_PATH.substring(0, 1).toLowerCase());
-        
+
         Assertions.assertTrue(fileExists);
         Assertions.assertFalse(fileNotExists);
     }
 
     @Test
-    void deletedImagesByFolderPath() {
+    void deleteImagesByFolderPath() throws IOException {
+        String deletePath = "src/test1/";
+        Set<String> dataFromFile = returnAllDataFromFile(TXT_IMAGE_TEST_PATH);
+        Set<String> jpgDataFromFile = returnSetOfJpgImages(dataFromFile);
+        Set<String> newFiles = setOfImagesAllPaths2(deletePath);
+        dataFromFile.addAll(newFiles);
+
+        Set<String> undeletedImages = manageTxtFiles.deleteImagesByFolderPath(deletePath, TXT_IMAGE_TEST_PATH);
+
+        Assertions.assertEquals(jpgDataFromFile, undeletedImages);
+        Assertions.assertNotEquals(dataFromFile, undeletedImages);
+
     }
 
     @Test
@@ -124,7 +135,17 @@ class ManageTxtFilesTest {
         return setOfImages;
     }
 
-    private static Set<String> returnAllDataFromFile (String filePath) throws IOException {
+    private static Set<String> setOfImagesAllPaths2(String folderPath) {
+        HashSet<String> setOfImages = new HashSet<>();
+        setOfImages.add(folderPath + "hello.tiff");
+        setOfImages.add(folderPath + "hallo.jpg");
+        setOfImages.add(folderPath + "hej.tiff");
+        setOfImages.add(folderPath + "hi.jpg");
+
+        return setOfImages;
+    }
+
+    private static Set<String> returnAllDataFromFile(String filePath) throws IOException {
         Set<String> allImages = new HashSet<>();
 
         Path path = Paths.get(filePath);
@@ -132,7 +153,7 @@ class ManageTxtFilesTest {
 
         allImages.addAll(lines);
 
-        return  allImages;
+        return allImages;
     }
 
     private static Set<String> returnSetOfJpgImages(Set<String> setOfAllImages) {
