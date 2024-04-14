@@ -75,6 +75,7 @@ public class ImportController {
         }
     }
 
+    @FXML
     public void onDeleteClick() throws IOException {
         String deleteDirectory = deletePath.getText();
 
