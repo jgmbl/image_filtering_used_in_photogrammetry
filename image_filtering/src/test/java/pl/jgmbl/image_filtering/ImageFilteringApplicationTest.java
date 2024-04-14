@@ -2,6 +2,8 @@ package pl.jgmbl.image_filtering;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -15,7 +17,7 @@ import java.util.HashSet;
 class ImageFilteringApplicationTest {
     private ImageFilteringApplication imageFilteringApplication;
 
-    @Before
+    @BeforeEach
     public void setUp() throws IOException {
         imageFilteringApplication = new ImageFilteringApplication();
         HashSet<String> setOfImagesPaths = new HashSet<>();
@@ -48,7 +50,11 @@ class ImageFilteringApplicationTest {
     }
 
     @Test
-    void stop() {
+    void stop() throws Exception {
+        File file = new File("src/main/resources/images.txt");
+
+        imageFilteringApplication.stop();
+        Assertions.assertFalse(file.exists());
     }
 
     @Test
