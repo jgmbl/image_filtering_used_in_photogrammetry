@@ -62,7 +62,13 @@ class ManageTxtFilesTest {
     }
 
     @Test
-    void readTxtFile() {
+    void readTxtFile() throws IOException {
+        Set<String> allImagesSet = setOfImagesAllPaths();
+        Set<String> jpgImagesSet = returnSetOfJpgImages(allImagesSet);
+        
+        Set<String> importedData = manageTxtFiles.readTxtFile(TXT_IMAGE_TEST_PATH);
+
+        Assertions.assertEquals(jpgImagesSet, importedData);
     }
 
     @Test
@@ -114,5 +120,17 @@ class ManageTxtFilesTest {
         allImages.addAll(lines);
 
         return  allImages;
+    }
+
+    private static Set<String> returnSetOfJpgImages(Set<String> setOfAllImages) {
+        HashSet<String> setOfJpgImages = new HashSet<>();
+
+        for (String image : setOfAllImages) {
+            if (!image.isEmpty() && image.toLowerCase().endsWith(".jpg") || image.toLowerCase().endsWith(".jpeg")) {
+                setOfJpgImages.add(image);
+            }
+        }
+
+        return setOfJpgImages;
     }
 }
