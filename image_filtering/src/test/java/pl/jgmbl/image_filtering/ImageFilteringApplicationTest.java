@@ -1,10 +1,9 @@
 package pl.jgmbl.image_filtering;
 
-import org.junit.After;
+import javafx.stage.Stage;
 import org.junit.Before;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import org.testfx.framework.junit.ApplicationTest;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,17 +13,17 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.HashSet;
 
-class ImageFilteringApplicationTest {
+class ImageFilteringApplicationTest extends ApplicationTest {
     private ImageFilteringApplication imageFilteringApplication;
 
     @BeforeEach
     public void setUp() throws IOException {
         imageFilteringApplication = new ImageFilteringApplication();
         HashSet<String> setOfImagesPaths = new HashSet<>();
-        setOfImagesPaths.add("src/test/resources/1.1.12.tiff");
+        setOfImagesPaths.add("src/test/resources/4.2.06.tiff");
         setOfImagesPaths.add("src/test/resources/4.1.05.jpg");
         setOfImagesPaths.add("src/test/resources/4.2.05.tiff");
-        setOfImagesPaths.add("src/test/resources/5.1.13.jpg");
+        setOfImagesPaths.add("src/test/resources/4.1.07.jpg");
 
         Path path = Paths.get("src/test/resources/test_images.txt");
         if (!Files.exists(path)) {
@@ -36,8 +35,8 @@ class ImageFilteringApplicationTest {
         }
     }
 
-    @After
-    public void tearDown() {
+    @AfterAll
+    public static void tearDown() {
         File file = new File("src/test/resources/test_images.txt");
 
         if (file.exists()) {
@@ -46,18 +45,14 @@ class ImageFilteringApplicationTest {
     }
 
     @Test
-    void start() {
+    void startTest() {
     }
 
     @Test
-    void stop() throws Exception {
+    void stopTest() throws Exception {
         File file = new File("src/main/resources/images.txt");
 
         imageFilteringApplication.stop();
         Assertions.assertFalse(file.exists());
-    }
-
-    @Test
-    void main() {
     }
 }
