@@ -85,6 +85,11 @@ class ManageTxtFilesTest {
 
     @Test
     void checkIfPathExists() {
+        boolean fileExists = ManageTxtFiles.checkIfPathExists(TXT_IMAGE_TEST_PATH);
+        boolean fileNotExists = ManageTxtFiles.checkIfPathExists(TXT_IMAGE_TEST_PATH.substring(0, 1).toLowerCase());
+        
+        Assertions.assertTrue(fileExists);
+        Assertions.assertFalse(fileNotExists);
     }
 
     @Test
