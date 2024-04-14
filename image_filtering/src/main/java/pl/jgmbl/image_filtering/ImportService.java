@@ -2,13 +2,9 @@ package pl.jgmbl.image_filtering;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.ListView;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -45,20 +41,16 @@ public class ImportService {
         return filesAndPathSet;
     }
 
-    public void refreshListView(String txtFilePath, ListView<String> listView) {
+    public ObservableList<String> refreshedObservableListFromTxtFile(String txtFilePath) {
+        Set<String> importedImagesSet = null;
         try {
-            Set<String> importedImagesSet = manageTxtFiles.readTxtFile(txtFilePath);
-            ObservableList<String> listOfImagesFromFile = FXCollections.observableArrayList(importedImagesSet);
-
-            if (ManageTxtFiles.checkIfPathExists(txtFilePath)) {
-                listView.setItems(listOfImagesFromFile);
-            } else {
-                listView.setItems(null);
-            }
-
+            importedImagesSet = manageTxtFiles.readTxtFile(txtFilePath);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        ObservableList<String> listOfImagesFromFile = FXCollections.observableArrayList(importedImagesSet);
+
+        return listOfImagesFromFile;
     }
 
 

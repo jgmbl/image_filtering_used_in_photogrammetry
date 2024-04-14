@@ -42,7 +42,8 @@ public class ImportController {
         deletionInfo.setWrapText(true);
         imagesList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
-        importService.refreshListView(PATH, imagesList);
+        ObservableList<String> stringObservableList = importService.refreshedObservableListFromTxtFile(PATH);
+        imagesList.setItems(stringObservableList);
     }
 
 
@@ -57,7 +58,9 @@ public class ImportController {
                 if (!importService.isFolderImported(PATH, listOfJPGFiles)) {
                     manageTxtFiles.writeListToTxtFile(listOfJPGFiles, "src/main/resources/images.txt", true);
 
-                    importService.refreshListView(PATH, imagesList);
+                    ObservableList<String> stringObservableList = importService.refreshedObservableListFromTxtFile(PATH);
+                    imagesList.setItems(stringObservableList);
+
                     importPath.clear();
 
                     AddAlert.addInfoAlert("Import succeed", "Import more images or choose filtering option from main menu.");
@@ -82,7 +85,8 @@ public class ImportController {
                 manageTxtFiles.writeListToTxtFile(deletedImagesFile, PATH, false);
                 deletePath.clear();
 
-                importService.refreshListView(PATH, imagesList);
+                ObservableList<String> stringObservableList = importService.refreshedObservableListFromTxtFile(PATH);
+                imagesList.setItems(stringObservableList);
 
                 deleteData.setText("Deleted imported image(s).");
 
@@ -97,7 +101,8 @@ public class ImportController {
                 ObservableList<String> selectedImages = imagesList.getSelectionModel().getSelectedItems();
                 manageTxtFiles.deleteImagesByImagesPaths(selectedImages, PATH);
 
-                importService.refreshListView(PATH, imagesList);
+                ObservableList<String> stringObservableList = importService.refreshedObservableListFromTxtFile(PATH);
+                imagesList.setItems(stringObservableList);
 
                 AddAlert.addInfoAlert("Deletion succeed", "Images are deleted.");
             } else {
