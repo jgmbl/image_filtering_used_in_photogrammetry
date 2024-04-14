@@ -1,8 +1,10 @@
 package pl.jgmbl.image_filtering;
 
 import javafx.stage.Stage;
-import org.junit.Before;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit.ApplicationTest;
 
 import java.io.File;
@@ -44,8 +46,9 @@ class ImageFilteringApplicationTest extends ApplicationTest {
         }
     }
 
-    @Test
-    void startTest() {
+    @Override
+    public void start(Stage stage) throws Exception {
+        new ImageFilteringApplication().start(stage);
     }
 
     @Test
