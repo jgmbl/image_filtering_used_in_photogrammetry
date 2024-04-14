@@ -11,16 +11,9 @@
 
     <Label fx:id="appInfo"/>
 
-    <Label fx:id="importImages"/>
     <Button text="Import images" onAction="#onImportButtonClick"/>
-
-    <Label fx:id="gaussFilter"/>
     <Button text="Gauss Filter" onAction="#onGaussFilterButtonClick"/>
-
-    <Label fx:id="medianFilter"/>
     <Button text="Median Filter" onAction="#onMedianFilterButtonClick"/>
-
-    <Label fx:id="unsharpMasking"/>
     <Button text="Unsharp masking" onAction="#onUnsharpMaskingButtonClick"/>
 
     <Label fx:id="aboutCreator" style="-fx-text-fill: #808080;"/>

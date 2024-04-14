@@ -17,15 +17,6 @@ public class IndexController {
     private Label appInfo;
 
     @FXML
-    private Label unsharpMasking;
-    @FXML
-    private Label importImages;
-    @FXML
-    private Label gaussFilter;
-    @FXML
-    private Label medianFilter;
-
-    @FXML
     private Label aboutCreator;
 
     public void initialize() {
@@ -59,7 +50,7 @@ public class IndexController {
     }
 
 
-    private void filterButton (String resource, String title) {
+    private void filterButton(String resource, String title) {
         if (!InputValidationService.checkIfImagesAreImported(IMAGES_TXT_PATH)) {
             AddAlert.addErrorAlert("Filtering is not possible", "Import photos before filtering.");
         } else {
