@@ -48,6 +48,8 @@ class ProcessImagesServiceTest {
 
         createPathIfDoesNotExists(GAUSSIAN_EXPORT_FOLDER_PATH);
         createPathIfDoesNotExists(MEDIAN_EXPORT_FOLDER_PATH);
+        createPathIfDoesNotExists(SHARPENING_EXPORT_FOLDER_PATH);
+
 
         nu.pattern.OpenCV.loadLocally();
     }
@@ -72,11 +74,51 @@ class ProcessImagesServiceTest {
     }
 
     @Test
-    void testFiltering() {
-    }
+    void testFiltering() throws IOException {
+        processImagesService.filtering("sharpening", TXT_IMAGE_TEST_PATH, SHARPENING_EXPORT_FOLDER_PATH);
 
-    @Test
-    void sharpeningFilter() {
+        int filesLength = 0;
+        File file = new File(SHARPENING_EXPORT_FOLDER_PATH + "/");
+        File[] files = file.listFiles();
+
+        if (files != null) {
+            filesLength = files.length;
+        }
+
+        // sharpened image at the beginning
+        String nameOfSharpenedFile = files[0].getName();
+        File sharpenedImageFile = new File(SHARPENING_EXPORT_FOLDER_PATH + nameOfSharpenedFile);
+        BufferedImage sharpenedImage = ImageIO.read(sharpenedImageFile);
+
+        // original image
+        String pathToOrigFiles = TXT_IMAGE_TEST_PATH.substring(0, TXT_IMAGE_TEST_PATH.lastIndexOf("/") + 1);
+        String nameOfOrigFile = nameOfSharpenedFile.substring(0, nameOfSharpenedFile.lastIndexOf("/") + 1) + nameOfSharpenedFile.substring(nameOfSharpenedFile.lastIndexOf("_") + 1);
+        File origImageFile = new File(pathToOrigFiles + nameOfOrigFile);
+        BufferedImage origImage = ImageIO.read(origImageFile);
+
+        // independent sharpening of original image
+        Mat src = Imgcodecs.imread(pathToOrigFiles + nameOfOrigFile);
+        Mat destinationMatrix = new Mat(src.rows(), src.cols(), src.type());
+
+        processImagesService.sharpeningFilter(src, destinationMatrix);
+
+        Imgcodecs.imwrite(SHARPENING_EXPORT_FOLDER_PATH + "test_" + "sharpening" + "_" + nameOfSharpenedFile.substring(nameOfSharpenedFile.lastIndexOf("_") + 1), destinationMatrix);
+
+        File sharpenedOrigFile = new File(SHARPENING_EXPORT_FOLDER_PATH + "test_" + "sharpening" + nameOfSharpenedFile.substring(nameOfSharpenedFile.lastIndexOf("_")));
+        BufferedImage blurredOrigImage = ImageIO.read(sharpenedOrigFile);
+
+        // comparison of pixels on sharpening at the beginning and sharpening of original image
+        for (int y = 0; y < sharpenedImage.getHeight(); y++) {
+            for (int x = 0; x < sharpenedImage.getWidth(); x++) {
+                int pixelSharpenedImage = sharpenedImage.getRGB(x, y);
+                int pixelSharpenedOrigImage = blurredOrigImage.getRGB(x, y);
+                Assertions.assertEquals(pixelSharpenedImage, pixelSharpenedOrigImage);
+            }
+        }
+
+        Assertions.assertEquals(filesLength, 2);
+        Assertions.assertEquals(origImage.getWidth(), sharpenedImage.getWidth());
+        Assertions.assertEquals(origImage.getHeight(), sharpenedImage.getHeight());
     }
 
     @Test
@@ -156,7 +198,7 @@ class ProcessImagesServiceTest {
         File origImageFile = new File(pathToOrigFiles + nameOfOrigFile);
         BufferedImage origImage = ImageIO.read(origImageFile);
 
-        // independent gaussian blur of original image
+        // independent blur of original image
         Mat src = Imgcodecs.imread(pathToOrigFiles + nameOfOrigFile);
         Mat destinationMatrix = new Mat(src.rows(), src.cols(), src.type());
         if (type.equals("gaussian")) {
@@ -169,7 +211,7 @@ class ProcessImagesServiceTest {
         File blurredOrigFile = new File(filteringFolderPath + "test_" + type + nameOfBlurredFile.substring(nameOfBlurredFile.lastIndexOf("_")));
         BufferedImage blurredOrigImage = ImageIO.read(blurredOrigFile);
 
-        // comparison of pixels on blur at the beginning and gaussian blur of original image
+        // comparison of pixels on blur at the beginning and blur of original image
         for (int y = 0; y < blurredImage.getHeight(); y++) {
             for (int x = 0; x < blurredImage.getWidth(); x++) {
                 int pixelBlurredImage = blurredImage.getRGB(x, y);
