@@ -66,8 +66,8 @@ class ProcessImagesServiceTest {
 
     @Test
     void filtering() throws IOException {
-        testBlur(TXT_IMAGE_TEST_PATH, GAUSSIAN_EXPORT_FOLDER_PATH, "gaussian");
-        testBlur(TXT_IMAGE_TEST_PATH, MEDIAN_EXPORT_FOLDER_PATH, "median");
+        testBlur(GAUSSIAN_EXPORT_FOLDER_PATH, "gaussian");
+        testBlur(MEDIAN_EXPORT_FOLDER_PATH, "median");
     }
 
     @Test
@@ -121,8 +121,8 @@ class ProcessImagesServiceTest {
         }
     }
 
-    private static void testBlur(String txtFilePath, String filteringFolderPath, String type) throws IOException {
-        processImagesService.filtering(type, txtFilePath, filteringFolderPath, 5);
+    private static void testBlur(String filteringFolderPath, String type) throws IOException {
+        processImagesService.filtering(type, TXT_IMAGE_TEST_PATH, filteringFolderPath, 5);
 
         int filesLength = 0;
         File file = new File(filteringFolderPath);
@@ -138,7 +138,7 @@ class ProcessImagesServiceTest {
         BufferedImage blurredImage = ImageIO.read(blurredImageFile);
 
         // original image
-        String pathToOrigFiles = txtFilePath.substring(0, txtFilePath.lastIndexOf("/") + 1);
+        String pathToOrigFiles = TXT_IMAGE_TEST_PATH.substring(0, TXT_IMAGE_TEST_PATH.lastIndexOf("/") + 1);
         String nameOfOrigFile = nameOfBlurredFile.substring(0, nameOfBlurredFile.lastIndexOf("/") + 1) + nameOfBlurredFile.substring(nameOfBlurredFile.lastIndexOf("_") + 1);
         File origImageFile = new File(pathToOrigFiles + nameOfOrigFile);
         BufferedImage origImage = ImageIO.read(origImageFile);
