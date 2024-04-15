@@ -16,7 +16,13 @@ Functionalities of the application include:
 - comparing the original and filtered photo
 - exporting photos
 
+![Main menu](https://github.com/jgmbl/image_filtering_used_in_photogrammetry/blob/main/screenshots/00_main_menu.png)
 ![Import and deletion](https://github.com/jgmbl/image_filtering_used_in_photogrammetry/blob/main/screenshots/01_import.png)
+![Gauss filter](https://github.com/jgmbl/image_filtering_used_in_photogrammetry/blob/main/screenshots/02_gaussian.png)
+![Median filter](https://github.com/jgmbl/image_filtering_used_in_photogrammetry/blob/main/screenshots/03_median.png)
+![Sharpening filter](https://github.com/jgmbl/image_filtering_used_in_photogrammetry/blob/main/screenshots/04_sharpening.png)
+![Errors](https://github.com/jgmbl/image_filtering_used_in_photogrammetry/blob/main/screenshots/error.gif)
+![Succeed](https://github.com/jgmbl/image_filtering_used_in_photogrammetry/blob/main/screenshots/succeed.gif)
 
 ## Technologies
 Technologies used:
