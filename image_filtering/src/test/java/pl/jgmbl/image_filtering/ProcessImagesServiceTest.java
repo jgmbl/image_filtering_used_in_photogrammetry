@@ -17,10 +17,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Stream;
 
 class ProcessImagesServiceTest {
     static String TXT_IMAGE_TEST_PATH = "src/test/resources/test_images.txt";
@@ -122,26 +120,7 @@ class ProcessImagesServiceTest {
 
     @Test
     void listOfFilteredImages() throws IOException {
-        Path image1 = Paths.get("src/test/resources/4.1.05.jpg");
-        Path image2 = Paths.get("src/test/resources/4.1.07.jpg");
-
-        Path image1Gaussian = Paths.get(GAUSSIAN_EXPORT_FOLDER_PATH + "gaussian_4.1.05.jpg");
-        Path image2Gaussian = Paths.get(GAUSSIAN_EXPORT_FOLDER_PATH + "gaussian_4.1.07.jpg");
-        Path image1Median = Paths.get(MEDIAN_EXPORT_FOLDER_PATH + "median_4.1.05.jpg");
-        Path image2Median = Paths.get(MEDIAN_EXPORT_FOLDER_PATH + "median_4.1.07.jpg");
-        Path image1Sharpening = Paths.get(SHARPENING_EXPORT_FOLDER_PATH + "sharpening_4.1.05.jpg");
-        Path image2Sharpening = Paths.get(SHARPENING_EXPORT_FOLDER_PATH + "sharpening_4.1.07.jpg");
-
-        try {
-            Files.copy(image1, image1Gaussian);
-            Files.copy(image2, image2Gaussian);
-            Files.copy(image1, image1Median);
-            Files.copy(image2, image2Median);
-            Files.copy(image1, image1Sharpening);
-            Files.copy(image2, image2Sharpening);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        copyImages();
 
         List<String> gaussianFiles = processImagesService.listOfFilteredImages(GAUSSIAN_EXPORT_FOLDER_PATH, "gaussian");
         List<String> gaussianList = returnFilesInDirectory(GAUSSIAN_EXPORT_FOLDER_PATH);
@@ -159,8 +138,33 @@ class ProcessImagesServiceTest {
     }
 
     @Test
-    void returnFilteredAndNotFilteredPathToImage() {
+    void returnFilteredAndNotFilteredPathToImage() throws IOException {
+        copyImages();
+
+        HashMap<String, String> gaussianHashMap = processImagesService.returnFilteredAndNotFilteredPathToImage(TXT_IMAGE_TEST_PATH, GAUSSIAN_EXPORT_FOLDER_PATH, "gaussian");
+        HashMap<String, String> medianHashMap = processImagesService.returnFilteredAndNotFilteredPathToImage(TXT_IMAGE_TEST_PATH, MEDIAN_EXPORT_FOLDER_PATH, "median");
+        HashMap<String, String> sharpeningHashMap = processImagesService.returnFilteredAndNotFilteredPathToImage(TXT_IMAGE_TEST_PATH, SHARPENING_EXPORT_FOLDER_PATH, "sharpening");
+
+        String gaussianImage = returnFirstJpgImageInFolder(GAUSSIAN_EXPORT_FOLDER_PATH);
+        String medianImage = returnFirstJpgImageInFolder(MEDIAN_EXPORT_FOLDER_PATH);
+        String sharpeningImage = returnFirstJpgImageInFolder(SHARPENING_EXPORT_FOLDER_PATH);
+        String referenceImage = returnFirstJpgImageInFolder("src/test/resources/");
+
+        HashMap<String, String> gaussianNewHashMap = new HashMap<>();
+        gaussianNewHashMap.put("filtered", gaussianImage);
+        gaussianNewHashMap.put("unfiltered", referenceImage);
+        HashMap<String, String> medianNewHashMap = new HashMap<>();
+        medianNewHashMap.put("filtered", medianImage);
+        medianNewHashMap.put("unfiltered", referenceImage);
+        HashMap<String, String> sharpeningNewHashMap = new HashMap<>();
+        sharpeningNewHashMap.put("filtered", sharpeningImage);
+        sharpeningNewHashMap.put("unfiltered", referenceImage);
+
+        Assertions.assertEquals(gaussianHashMap, gaussianNewHashMap);
+        Assertions.assertEquals(medianHashMap, medianNewHashMap);
+        Assertions.assertEquals(sharpeningHashMap, sharpeningNewHashMap);
     }
+
 
     private static Set<String> setOfImagesAllPaths() {
         HashSet<String> setOfImages = new HashSet<>();
@@ -222,6 +226,45 @@ class ProcessImagesServiceTest {
         }
 
         return listOfFiles;
+    }
+
+    private static void copyImages() {
+        Path image1 = Paths.get("src/test/resources/4.1.05.jpg");
+        Path image2 = Paths.get("src/test/resources/4.1.07.jpg");
+
+        Path image1Gaussian = Paths.get(GAUSSIAN_EXPORT_FOLDER_PATH + "gaussian_4.1.05.jpg");
+        Path image2Gaussian = Paths.get(GAUSSIAN_EXPORT_FOLDER_PATH + "gaussian_4.1.07.jpg");
+        Path image1Median = Paths.get(MEDIAN_EXPORT_FOLDER_PATH + "median_4.1.05.jpg");
+        Path image2Median = Paths.get(MEDIAN_EXPORT_FOLDER_PATH + "median_4.1.07.jpg");
+        Path image1Sharpening = Paths.get(SHARPENING_EXPORT_FOLDER_PATH + "sharpening_4.1.05.jpg");
+        Path image2Sharpening = Paths.get(SHARPENING_EXPORT_FOLDER_PATH + "sharpening_4.1.07.jpg");
+
+        try {
+            Files.copy(image1, image1Gaussian);
+            Files.copy(image2, image2Gaussian);
+            Files.copy(image1, image1Median);
+            Files.copy(image2, image2Median);
+            Files.copy(image1, image1Sharpening);
+            Files.copy(image2, image2Sharpening);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static String returnFirstJpgImageInFolder(String folderPath) throws IOException {
+        String jpgImage = "";
+        HashSet<String> setOfJpgFiles = new HashSet<>();
+        Path path = Paths.get(folderPath);
+
+        Stream<Path> list = Files.list(path);
+        list.map(Path::toString).forEach(setOfJpgFiles::add);
+
+        Iterator<String> iterator = setOfJpgFiles.iterator();
+        if (iterator.hasNext()) {
+            jpgImage = iterator.next();
+        }
+        
+        return jpgImage;
     }
 
     private static void testBlur(String filteringFolderPath, String type) throws IOException {
