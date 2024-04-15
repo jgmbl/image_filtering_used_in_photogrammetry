@@ -26,6 +26,7 @@ import static java.lang.System.*;
 class ProcessImagesServiceTest {
     static String TXT_IMAGE_TEST_PATH = "src/test/resources/test_images.txt";
     static String GAUSSIAN_EXPORT_FOLDER_PATH = "src/test/resources/gaussian_filtering/";
+    static String MEDIAN_EXPORT_FOLDER_PATH = "src/test/resources/median_filtering/";
 
     private static ProcessImagesService processImagesService;
 
@@ -56,11 +57,13 @@ class ProcessImagesServiceTest {
         }
 
         deleteFilteredFiles(GAUSSIAN_EXPORT_FOLDER_PATH);
+        deleteFilteredFiles(MEDIAN_EXPORT_FOLDER_PATH);
     }
 
     @Test
     void filtering() throws IOException {
-        testGaussianBlur();
+        testBlur(TXT_IMAGE_TEST_PATH, GAUSSIAN_EXPORT_FOLDER_PATH, "gaussian");
+        testBlur(TXT_IMAGE_TEST_PATH, MEDIAN_EXPORT_FOLDER_PATH, "median");
     }
 
     @Test
@@ -102,11 +105,11 @@ class ProcessImagesServiceTest {
         }
     }
 
-    private static void testGaussianBlur() throws IOException {
-        processImagesService.filtering("gaussian", TXT_IMAGE_TEST_PATH, GAUSSIAN_EXPORT_FOLDER_PATH, 5);
+    private static void testBlur(String txtFilePath, String filteringFolderPath, String type) throws IOException {
+        processImagesService.filtering(type, txtFilePath, filteringFolderPath, 5);
 
         int filesLength = 0;
-        File file = new File(GAUSSIAN_EXPORT_FOLDER_PATH);
+        File file = new File(filteringFolderPath);
         File[] files = file.listFiles();
 
         if (files != null) {
@@ -115,11 +118,11 @@ class ProcessImagesServiceTest {
 
         // blurred image at the beginning
         String nameOfBlurredFile = files[0].getName();
-        File blurredImageFile = new File(GAUSSIAN_EXPORT_FOLDER_PATH + nameOfBlurredFile);
+        File blurredImageFile = new File(filteringFolderPath + nameOfBlurredFile);
         BufferedImage blurredImage = ImageIO.read(blurredImageFile);
 
         // original image
-        String pathToOrigFiles = TXT_IMAGE_TEST_PATH.substring(0, TXT_IMAGE_TEST_PATH.lastIndexOf("/") + 1);
+        String pathToOrigFiles = txtFilePath.substring(0, txtFilePath.lastIndexOf("/") + 1);
         String nameOfOrigFile = nameOfBlurredFile.substring(0, nameOfBlurredFile.lastIndexOf("/") + 1) + nameOfBlurredFile.substring(nameOfBlurredFile.lastIndexOf("_") + 1);
         File origImageFile = new File(pathToOrigFiles + nameOfOrigFile);
         BufferedImage origImage = ImageIO.read(origImageFile);
@@ -127,10 +130,14 @@ class ProcessImagesServiceTest {
         // independent gaussian blur of original image
         Mat src = Imgcodecs.imread(pathToOrigFiles + nameOfOrigFile);
         Mat destinationMatrix = new Mat(src.rows(), src.cols(), src.type());
-        Imgproc.GaussianBlur(src, destinationMatrix, new Size(5, 5), 0);
-        Imgcodecs.imwrite(GAUSSIAN_EXPORT_FOLDER_PATH + "test_gaussian_" + nameOfBlurredFile.substring(nameOfBlurredFile.lastIndexOf("_") + 1), destinationMatrix);
+        if (type.equals("gaussian")) {
+            Imgproc.GaussianBlur(src, destinationMatrix, new Size(5, 5), 0);
+        } else if (type.equals("median")) {
+            Imgproc.medianBlur(src, destinationMatrix, 5);
+        }
+        Imgcodecs.imwrite(filteringFolderPath + "test_" + type + "_" + nameOfBlurredFile.substring(nameOfBlurredFile.lastIndexOf("_") + 1), destinationMatrix);
 
-        File blurredOrigFile = new File(GAUSSIAN_EXPORT_FOLDER_PATH + "test_gaussian" + nameOfBlurredFile.substring(nameOfBlurredFile.lastIndexOf("_")));
+        File blurredOrigFile = new File(filteringFolderPath + "test_" + type + nameOfBlurredFile.substring(nameOfBlurredFile.lastIndexOf("_")));
         BufferedImage blurredOrigImage = ImageIO.read(blurredOrigFile);
 
         // comparison of pixels on blur at the beginning and gaussian blur of original image
