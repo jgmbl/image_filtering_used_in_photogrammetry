@@ -53,14 +53,31 @@ class InputValidationServiceTest {
         // src/test/resources/
         boolean pathIsCorrect1 = InputValidationService.checkIfExportPathIsCorrect(TXT_IMAGE_TEST_PATH.substring(0, TXT_IMAGE_TEST_PATH.lastIndexOf("/") + 1));
         boolean pathIsNotCorrect = InputValidationService.checkIfExportPathIsCorrect(TXT_IMAGE_TEST_PATH.substring(0, 2));
+        boolean pathIsNotCorrect1 = InputValidationService.checkIfExportPathIsCorrect("");
+
 
         Assertions.assertTrue(pathIsCorrect);
         Assertions.assertTrue(pathIsCorrect1);
         Assertions.assertFalse(pathIsNotCorrect);
+        Assertions.assertFalse(pathIsNotCorrect1);
     }
 
     @Test
     void checkIfParameterIsCorrect() {
+        boolean correct = InputValidationService.checkIfParameterIsCorrect("15");
+        boolean correct1 = InputValidationService.checkIfParameterIsCorrect("9");
+        boolean correct2 = InputValidationService.checkIfParameterIsCorrect("5");
+        boolean correct3 = InputValidationService.checkIfParameterIsCorrect("3");
+        boolean incorrect = InputValidationService.checkIfParameterIsCorrect("");
+        boolean incorrect1 = InputValidationService.checkIfParameterIsCorrect("Hello");
+
+        Assertions.assertTrue(correct);
+        Assertions.assertTrue(correct1);
+        Assertions.assertTrue(correct2);
+        Assertions.assertTrue(correct3);
+        Assertions.assertFalse(incorrect);
+        Assertions.assertFalse(incorrect1);
+
     }
 
     @Test
