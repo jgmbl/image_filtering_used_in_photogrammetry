@@ -52,14 +52,16 @@ class InputValidationServiceTest {
         boolean pathIsCorrect = InputValidationService.checkIfExportPathIsCorrect(TXT_IMAGE_TEST_PATH.substring(0, TXT_IMAGE_TEST_PATH.lastIndexOf("/")));
         // src/test/resources/
         boolean pathIsCorrect1 = InputValidationService.checkIfExportPathIsCorrect(TXT_IMAGE_TEST_PATH.substring(0, TXT_IMAGE_TEST_PATH.lastIndexOf("/") + 1));
-        boolean pathIsNotCorrect = InputValidationService.checkIfExportPathIsCorrect(TXT_IMAGE_TEST_PATH.substring(0, 2));
-        boolean pathIsNotCorrect1 = InputValidationService.checkIfExportPathIsCorrect("");
+        boolean pathIsIncorrect = InputValidationService.checkIfExportPathIsCorrect(TXT_IMAGE_TEST_PATH.substring(0, 2));
+        boolean pathIsIncorrect1 = InputValidationService.checkIfExportPathIsCorrect("");
+        boolean pathIsIncorrect2 = InputValidationService.checkIfExportPathIsCorrect(TXT_IMAGE_TEST_PATH + "/hellohaveagreatday");
 
 
         Assertions.assertTrue(pathIsCorrect);
         Assertions.assertTrue(pathIsCorrect1);
-        Assertions.assertFalse(pathIsNotCorrect);
-        Assertions.assertFalse(pathIsNotCorrect1);
+        Assertions.assertFalse(pathIsIncorrect);
+        Assertions.assertFalse(pathIsIncorrect1);
+        Assertions.assertFalse(pathIsIncorrect2);
     }
 
     @Test
@@ -70,6 +72,7 @@ class InputValidationServiceTest {
         boolean correct3 = InputValidationService.checkIfParameterIsCorrect("3");
         boolean incorrect = InputValidationService.checkIfParameterIsCorrect("");
         boolean incorrect1 = InputValidationService.checkIfParameterIsCorrect("Hello");
+        boolean incorrect2 = InputValidationService.checkIfParameterIsCorrect("4");
 
         Assertions.assertTrue(correct);
         Assertions.assertTrue(correct1);
@@ -77,11 +80,25 @@ class InputValidationServiceTest {
         Assertions.assertTrue(correct3);
         Assertions.assertFalse(incorrect);
         Assertions.assertFalse(incorrect1);
-
+        Assertions.assertFalse(incorrect2);
     }
 
     @Test
     void checkIfImagesAreImported() {
+        boolean correct = InputValidationService.checkIfImagesAreImported(TXT_IMAGE_TEST_PATH);
+        boolean incorrect = InputValidationService.checkIfImagesAreImported(TXT_IMAGE_TEST_PATH.substring(0, TXT_IMAGE_TEST_PATH.lastIndexOf("/") + 1) + "hello.txt");
+        boolean incorrect2 = InputValidationService.checkIfImagesAreImported(TXT_IMAGE_TEST_PATH.substring(0, 2));
+
+        tearDown();
+        boolean incorrect3 = InputValidationService.checkIfImagesAreImported(TXT_IMAGE_TEST_PATH);
+        boolean incorrect4 = InputValidationService.checkIfImagesAreImported("hello/");
+
+        Assertions.assertTrue(correct);
+        Assertions.assertFalse(incorrect);
+        Assertions.assertFalse(incorrect2);
+        Assertions.assertFalse(incorrect3);
+        Assertions.assertFalse(incorrect4);
+
     }
 
     @Test
