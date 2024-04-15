@@ -46,7 +46,7 @@ public class InputValidationService {
         }
     }
 
-    public static String returnCorrectPath (String folderPath) {
+    public static String returnCorrectPath(String folderPath) {
 
         if (folderPath != null && !folderPath.isEmpty()) {
             if (!folderPath.endsWith("/")) {
