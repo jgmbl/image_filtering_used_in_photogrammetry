@@ -103,6 +103,16 @@ class InputValidationServiceTest {
 
     @Test
     void returnCorrectPath() {
+        // src/test/resources
+        String path = TXT_IMAGE_TEST_PATH.substring(0, TXT_IMAGE_TEST_PATH.lastIndexOf("/"));
+        // src/test/resources/
+        String path1 = TXT_IMAGE_TEST_PATH.substring(0, TXT_IMAGE_TEST_PATH.lastIndexOf("/") + 1);
+        String pathReturned = InputValidationService.returnCorrectPath(path);
+        String path1Returned = InputValidationService.returnCorrectPath(path1);
+
+        Assertions.assertEquals(pathReturned, path1Returned);
+        Assertions.assertTrue(pathReturned.endsWith("/"));
+        Assertions.assertTrue(path1Returned.endsWith("/"));
     }
 
     private static Set<String> setOfImagesAllPaths() {
