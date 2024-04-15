@@ -1,6 +1,7 @@
 package pl.jgmbl.image_filtering;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class InputValidationServiceTest {
     String TXT_IMAGE_TEST_PATH = "src/test/resources/test_images.txt";
+
     private InputValidationService inputValidationService;
 
     @BeforeEach
@@ -46,6 +48,15 @@ class InputValidationServiceTest {
 
     @Test
     void checkIfExportPathIsCorrect() {
+        // src/test/resources
+        boolean pathIsCorrect = InputValidationService.checkIfExportPathIsCorrect(TXT_IMAGE_TEST_PATH.substring(0, TXT_IMAGE_TEST_PATH.lastIndexOf("/")));
+        // src/test/resources/
+        boolean pathIsCorrect1 = InputValidationService.checkIfExportPathIsCorrect(TXT_IMAGE_TEST_PATH.substring(0, TXT_IMAGE_TEST_PATH.lastIndexOf("/") + 1));
+        boolean pathIsNotCorrect = InputValidationService.checkIfExportPathIsCorrect(TXT_IMAGE_TEST_PATH.substring(0, 2));
+
+        Assertions.assertTrue(pathIsCorrect);
+        Assertions.assertTrue(pathIsCorrect1);
+        Assertions.assertFalse(pathIsNotCorrect);
     }
 
     @Test
