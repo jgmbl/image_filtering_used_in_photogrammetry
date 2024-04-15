@@ -166,6 +166,7 @@ class ProcessImagesServiceTest {
     }
 
 
+
     private static Set<String> setOfImagesAllPaths() {
         HashSet<String> setOfImages = new HashSet<>();
         setOfImages.add("src/test/resources/4.2.06.tiff");
@@ -213,7 +214,7 @@ class ProcessImagesServiceTest {
         }
     }
 
-    public static List<String> returnFilesInDirectory(String directory) {
+    private static List<String> returnFilesInDirectory(String directory) {
         List<String> listOfFiles = new ArrayList<>();
 
         File file = new File(directory);
@@ -263,7 +264,7 @@ class ProcessImagesServiceTest {
         if (iterator.hasNext()) {
             jpgImage = iterator.next();
         }
-        
+
         return jpgImage;
     }
 
