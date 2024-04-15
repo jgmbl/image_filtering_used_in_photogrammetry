@@ -27,6 +27,7 @@ class ProcessImagesServiceTest {
     static String TXT_IMAGE_TEST_PATH = "src/test/resources/test_images.txt";
     static String GAUSSIAN_EXPORT_FOLDER_PATH = "src/test/resources/gaussian_filtering/";
     static String MEDIAN_EXPORT_FOLDER_PATH = "src/test/resources/median_filtering/";
+    static String SHARPENING_EXPORT_FOLDER_PATH = "src/test/resources/sharpening_filtering/";
 
     private static ProcessImagesService processImagesService;
 
@@ -44,6 +45,9 @@ class ProcessImagesServiceTest {
                 Files.write(path, setOfImagesPaths, StandardOpenOption.TRUNCATE_EXISTING);
             }
         }
+
+        createPathIfDoesNotExists(GAUSSIAN_EXPORT_FOLDER_PATH);
+        createPathIfDoesNotExists(MEDIAN_EXPORT_FOLDER_PATH);
 
         nu.pattern.OpenCV.loadLocally();
     }
@@ -101,6 +105,18 @@ class ProcessImagesServiceTest {
                 if (file.isFile()) {
                     file.delete();
                 }
+            }
+        }
+    }
+
+    private static void createPathIfDoesNotExists(String folderPath) {
+        Path path = Paths.get(folderPath);
+
+        if (!Files.exists(path)) {
+            try {
+                Files.createDirectories(path);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
         }
     }
