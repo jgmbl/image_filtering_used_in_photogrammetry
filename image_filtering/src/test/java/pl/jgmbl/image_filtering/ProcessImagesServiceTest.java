@@ -4,7 +4,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.Size;
 import org.opencv.imgcodecs.Imgcodecs;
@@ -18,10 +17,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
-
-import static java.lang.System.*;
 
 class ProcessImagesServiceTest {
     static String TXT_IMAGE_TEST_PATH = "src/test/resources/test_images.txt";
@@ -122,7 +121,41 @@ class ProcessImagesServiceTest {
     }
 
     @Test
-    void listOfFilteredImages() {
+    void listOfFilteredImages() throws IOException {
+        Path image1 = Paths.get("src/test/resources/4.1.05.jpg");
+        Path image2 = Paths.get("src/test/resources/4.1.07.jpg");
+
+        Path image1Gaussian = Paths.get(GAUSSIAN_EXPORT_FOLDER_PATH + "gaussian_4.1.05.jpg");
+        Path image2Gaussian = Paths.get(GAUSSIAN_EXPORT_FOLDER_PATH + "gaussian_4.1.07.jpg");
+        Path image1Median = Paths.get(MEDIAN_EXPORT_FOLDER_PATH + "median_4.1.05.jpg");
+        Path image2Median = Paths.get(MEDIAN_EXPORT_FOLDER_PATH + "median_4.1.07.jpg");
+        Path image1Sharpening = Paths.get(SHARPENING_EXPORT_FOLDER_PATH + "sharpening_4.1.05.jpg");
+        Path image2Sharpening = Paths.get(SHARPENING_EXPORT_FOLDER_PATH + "sharpening_4.1.07.jpg");
+
+        try {
+            Files.copy(image1, image1Gaussian);
+            Files.copy(image2, image2Gaussian);
+            Files.copy(image1, image1Median);
+            Files.copy(image2, image2Median);
+            Files.copy(image1, image1Sharpening);
+            Files.copy(image2, image2Sharpening);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        List<String> gaussianFiles = processImagesService.listOfFilteredImages(GAUSSIAN_EXPORT_FOLDER_PATH, "gaussian");
+        List<String> gaussianList = returnFilesInDirectory(GAUSSIAN_EXPORT_FOLDER_PATH);
+
+        List<String> medianFiles = processImagesService.listOfFilteredImages(MEDIAN_EXPORT_FOLDER_PATH, "median");
+        List<String> medianList = returnFilesInDirectory(MEDIAN_EXPORT_FOLDER_PATH);
+
+        List<String> sharpeningFiles = processImagesService.listOfFilteredImages(SHARPENING_EXPORT_FOLDER_PATH, "sharpening");
+        List<String> sharpeningList = returnFilesInDirectory(SHARPENING_EXPORT_FOLDER_PATH);
+
+        Assertions.assertEquals(gaussianFiles, gaussianList);
+        Assertions.assertEquals(medianFiles, medianList);
+        Assertions.assertEquals(sharpeningFiles, sharpeningList);
+
     }
 
     @Test
@@ -164,7 +197,7 @@ class ProcessImagesServiceTest {
         }
     }
 
-    private static void deleteDirectory (String path) {
+    private static void deleteDirectory(String path) {
         Path path1 = Paths.get(path);
 
         if (Files.exists(path1)) {
@@ -174,6 +207,21 @@ class ProcessImagesServiceTest {
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    public static List<String> returnFilesInDirectory(String directory) {
+        List<String> listOfFiles = new ArrayList<>();
+
+        File file = new File(directory);
+        File[] files = file.listFiles();
+
+        if (files != null) {
+            for (File file1 : files) {
+                listOfFiles.add(file1.getName());
+            }
+        }
+
+        return listOfFiles;
     }
 
     private static void testBlur(String filteringFolderPath, String type) throws IOException {
