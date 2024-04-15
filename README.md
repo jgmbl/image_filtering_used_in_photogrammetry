@@ -16,6 +16,8 @@ Functionalities of the application include:
 - comparing the original and filtered photo
 - exporting photos
 
+![Import and deletion](https://github.com/jgmbl/image_filtering_used_in_photogrammetry/blob/main/screenshots/01_import.png)
+
 ## Technologies
 Technologies used:
 - JavaFX
