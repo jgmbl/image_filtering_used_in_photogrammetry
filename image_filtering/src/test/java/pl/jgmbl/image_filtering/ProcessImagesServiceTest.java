@@ -54,14 +54,15 @@ class ProcessImagesServiceTest {
 
     @AfterEach
     void tearDown() {
-        File file = new File(TXT_IMAGE_TEST_PATH);
-
-        if (file.exists()) {
-            file.delete();
-        }
+        deleteDirectory(TXT_IMAGE_TEST_PATH);
 
         deleteFilteredFiles(GAUSSIAN_EXPORT_FOLDER_PATH);
         deleteFilteredFiles(MEDIAN_EXPORT_FOLDER_PATH);
+        deleteFilteredFiles(SHARPENING_EXPORT_FOLDER_PATH);
+
+        deleteDirectory(GAUSSIAN_EXPORT_FOLDER_PATH);
+        deleteDirectory(MEDIAN_EXPORT_FOLDER_PATH);
+        deleteDirectory(SHARPENING_EXPORT_FOLDER_PATH);
     }
 
     @Test
@@ -115,6 +116,18 @@ class ProcessImagesServiceTest {
         if (!Files.exists(path)) {
             try {
                 Files.createDirectories(path);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    private static void deleteDirectory (String path) {
+        Path path1 = Paths.get(path);
+
+        if (Files.exists(path1)) {
+            try {
+                Files.delete(path1);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
