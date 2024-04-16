@@ -26,6 +26,7 @@ Functionalities of the application include:
 
 ## Technologies
 Technologies used:
+- Java
 - JavaFX
 -  OpenCV
 - JUnit
